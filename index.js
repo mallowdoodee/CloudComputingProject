@@ -22,9 +22,14 @@ app.use(express.json());
 //   console.log("Connected!");
 // });
 
-app.get('/', (req, res) => {
-    res.render("home.ejs")
-})
+app.get("/", (req, res) => {
+  const recentSymptoms = [
+    { time: "09:00 AM", title: "ปวดท้อง", detail: "ปวดท้องอย่างรุนแรงข้างขวา" },
+    { time: "02:30 PM", title: "เวียนหัว", detail: "เวียนหัวหลังออกกำลังกาย" },
+  ];
+
+  res.render("home", { recentSymptoms });
+});
 
 // app.post("/signup", (req, res) => {
 //   const { username, password } = req.body;
