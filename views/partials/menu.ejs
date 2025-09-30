@@ -1,0 +1,97 @@
+<div class="fixed bottom-24 right-6 flex flex-col items-end gap-3">
+
+    <!-- Mini Action: Add Symptom (pencil) -->
+    <button id="miniSymptom"
+      class="pointer-events-none opacity-0 translate-y-3 scale-95
+             w-12 h-12 rounded-full bg-white shadow-lg ring-1 ring-black/5
+             grid place-items-center transition-all duration-200"
+      aria-hidden="true" title="Add Symptom">
+      <!-- pencil icon (stroke red) -->
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
+           viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="stroke-red-600"
+              d="M15.232 5.232l3.536 3.536M4 20h4l10.5-10.5a2.5 2.5 0 10-3.536-3.536L4 16.464V20z"/>
+      </svg>
+    </button>
+
+    <!-- Mini Action: Add Medicine (pill) -->
+    <button id="miniMedicine"
+      class="pointer-events-none opacity-0 translate-y-3 scale-95
+             w-12 h-12 rounded-full bg-white shadow-lg ring-1 ring-black/5
+             grid place-items-center transition-all duration-200"
+      aria-hidden="true" title="Add Medicine">
+      <!-- pill icon (stroke red) -->
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
+           viewBox="0 0 24 24" stroke="currentColor">
+        <path class="stroke-red-600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              d="M4.5 13.5l6-6a4.243 4.243 0 116 6l-6 6a4.243 4.243 0 11-6-6z"/>
+        <path class="stroke-red-600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              d="M9 9l6 6"/>
+      </svg>
+    </button>
+
+    <!-- Main FAB -->
+    <button id="fab"
+      class="w-14 h-14 rounded-full shadow-xl grid place-items-center
+             text-white bg-gradient-to-b from-rose-400 to-rose-600
+             hover:from-rose-500 hover:to-rose-700 transition-colors duration-200"
+      aria-expanded="false" aria-controls="miniMedicine miniSymptom" title="Add">
+      <!-- plus / X icon (animate rotate) -->
+      <svg id="fabIcon" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 transition-transform duration-200"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" d="M12 4v16"/>
+        <path stroke-linecap="round" d="M4 12h16"/>
+      </svg>
+    </button>
+  </div>
+
+  <script>
+    const fab = document.getElementById('fab');
+    const fabIcon = document.getElementById('fabIcon');
+    const miniMed = document.getElementById('miniMedicine');
+    const miniSym = document.getElementById('miniSymptom');
+
+    let open = false;
+
+    function setOpen(v) {
+      open = v;
+      fab.setAttribute('aria-expanded', String(open));
+
+      // toggle plus ↔ X (หมุน 45 องศาให้เป็น X)
+      fabIcon.style.transform = open ? 'rotate(45deg)' : 'rotate(0deg)';
+
+      // แสดง/ซ่อนปุ่มย่อยด้วย opacity + translate + pointer-events
+      [miniMed, miniSym].forEach((el, i) => {
+        if (open) {
+          el.classList.remove('opacity-0', 'translate-y-3', 'scale-95', 'pointer-events-none');
+          el.classList.add('opacity-100', 'translate-y-0', 'scale-100');
+          // ทำดีเลย์เล็กน้อยให้เด้งทีละปุ่ม
+          el.style.transitionDelay = (i * 40) + 'ms';
+        } else {
+          el.classList.add('opacity-0', 'translate-y-3', 'scale-95', 'pointer-events-none');
+          el.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
+          el.style.transitionDelay = '0ms';
+        }
+      });
+    }
+
+    fab.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setOpen(!open);
+    });
+
+    // คลิกข้างนอกเพื่อปิด
+    document.addEventListener('click', (e) => {
+      if (open) setOpen(false);
+    });
+
+    // กันคลิกบนปุ่มย่อยแล้วเมนูปิดก่อน
+    [miniMed, miniSym].forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        // TODO: ใส่ action จริงที่นี่
+        alert(btn === miniMed ? 'Add Medicine' : 'Add Symptom');
+        setOpen(false);
+      });
+    });
+  </script>

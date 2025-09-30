@@ -7,6 +7,12 @@ const path = require("path");
 app.set('view engine', 'ejs')
 app.set("views", path.join(__dirname, "views"));
 
+app.use("/assets", express.static("assets"));
+app.use((req, res, next) => {
+  res.locals.currentPath = req.path === "/" ? "/symptom" : req.path;
+  next();
+});
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -22,14 +28,28 @@ app.use(express.json());
 //   console.log("Connected!");
 // });
 
-app.get("/", (req, res) => {
-  const recentSymptoms = [
-    { time: "09:00 AM", title: "ปวดท้อง", detail: "ปวดท้องอย่างรุนแรงข้างขวา" },
-    { time: "02:30 PM", title: "เวียนหัว", detail: "เวียนหัวหลังออกกำลังกาย" },
-  ];
-
-  res.render("home", { recentSymptoms });
+app.use((req, res, next) => {
+  res.locals.currentPath = req.path === "/" ? "/symptom" : req.path;
+  next();
 });
+
+app.get("/", (req, res) => res.render("pages/symptom", { title: "Symptom" }));
+
+app.get("/symptom", (req, res) => res.render("pages/symptom", { title: "Symptom" }));
+
+app.get("/medicine", (req, res) => {
+  res.render("pages/Medication", { title: "Medicine" });
+});
+
+app.get("/Schedule", (req, res) => {
+  res.render("pages/Schedule", { title: "Schedule" });
+});
+
+app.get("/List", (req, res) => {
+  res.render("pages/List", { title: "List" });
+});
+
+app.use((req, res) => res.redirect("/symptom"));
 
 // app.post("/signup", (req, res) => {
 //   const { username, password } = req.body;

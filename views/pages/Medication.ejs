@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <title>Home Day View</title>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+  <%- include("../partials/nav.ejs") %>
+
+  <!-- Content -->
+  <main class="flex-1 overflow-y-auto p-4 space-y-6">
+
+    <!-- Doctor Appointments -->
+    <section>
+      <h3 class="text-lg font-semibold">Doctor Appointments</h3>
+      <p class="text-sm text-gray-500">You have no appointment today</p>
+    </section>
+
+    <!-- Medications -->
+    <section>
+      <h3 class="text-lg font-semibold mb-2">Medications</h3>
+      <div class="bg-pink-100 rounded-lg p-4 flex items-center justify-between">
+        <div>
+          <p class="text-sm text-gray-600">11:00</p>
+          <p class="font-semibold text-gray-800">Propranolol</p>
+        </div>
+        <span class="text-sm font-bold text-gray-700">x 1</span>
+      </div>
+    </section>
+
+    <!-- Log -->
+    <section>
+      <h3 class="text-lg font-semibold mb-2">Log</h3>
+      <div class="space-y-2">
+        <div class="bg-white rounded-lg shadow p-3">
+          <p class="text-sm font-semibold text-gray-800">6:27</p>
+          <p class="text-sm text-gray-600">ปวดท้อง</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-3">
+          <p class="text-sm font-semibold text-gray-800">8:31</p>
+          <p class="text-sm text-gray-600">ปวดเข่า</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Floating Action Button -->
+  <%- include("../partials/menu.ejs") %>
+
+</body>
+</html>
