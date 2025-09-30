@@ -1,14 +1,4 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <title>Health Tracker</title>
-</head>
-
-<body class="bg-gray-100 text-gray-800">
+<%- include("../header/head.ejs") %>
 
     <%- include("../partials/nav.ejs") %>
 
@@ -64,6 +54,9 @@
     </article>
 
   </main>
+
+    <!-- Floating Action Button -->
+  <%- include("../partials/menu.ejs") %>
 
 </body>
 
