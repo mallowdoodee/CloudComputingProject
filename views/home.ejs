@@ -10,26 +10,60 @@
 
 <body class="bg-gray-100 text-gray-800">
 
-  <!-- Sticky Header -->
-  <header class="flex items-center justify-between bg-white p-5 shadow-md sticky top-0 z-50">
-    <h1 class="text-2xl font-bold">Today</h1>
-    <a href="#" class="hover:opacity-80 transition">
-      <img class="w-10 rounded-md shadow-sm" src="https://static.vecteezy.com/system/resources/previews/005/988/959/non_2x/calendar-icon-free-vector.jpg" alt="Calendar Icon">
-    </a>
-  </header>
+    <%- include("./nav") %>
 
-  <!-- Date navigation -->
-  <div class="flex items-center justify-center space-x-6 bg-gray-50 p-4 border-b">
-    <a href="#" class="text-2xl font-bold text-gray-500 hover:text-gray-700 transition">&lt;</a>
-    <h2 class="text-xl font-bold text-[#BB271A] bg-white px-4 py-1 rounded-full shadow-sm">
-      Sun 28 Sep.
-    </h2>
-    <a href="#" class="text-2xl font-bold text-gray-500 hover:text-gray-700 transition">&gt;</a>
-  </div>
+    <main class="max-w-2xl mx-auto p-6">
 
+    <!-- Section heading -->
+    <section class="flex items-center justify-between mb-6">
+      <h3 class="text-lg font-semibold tracking-wide text-gray-700">Recent Symptoms</h3>
+      <a href="#" class="flex items-center justify-center w-8 h-8 rounded-full bg-[#BB271A] text-white text-xl font-bold hover:scale-110 transition">
+        +
+      </a>
+    </section>
 
-  <%- include("Symptom", { recentSymptoms }) %>
+    <!-- Symptom card -->
+    <article class="p-5 bg-white rounded-2xl shadow-md hover:shadow-lg transition mb-5">
+      <!-- Top row: Time + Actions -->
+      <div class="flex items-center justify-between">
+        <time class="text-sm font-semibold text-gray-500">09:00 AM</time>
+        <div class="flex space-x-3">
+          <button class="text-blue-500 hover:text-blue-700 transition" aria-label="Edit">
+            ✏️
+          </button>
+          <button class="text-red-500 hover:text-red-700 transition" aria-label="Delete">
+            🗑️
+          </button>
+        </div>
+      </div>
 
+      <!-- Bottom row: Topic + Detail -->
+      <div class="mt-3">
+        <h4 class="text-lg font-bold text-gray-800">ปวดท้อง</h4>
+        <p class="text-sm text-gray-600 mt-1">ปวดท้องอย่างรุนแรงข้างขวา</p>
+      </div>
+    </article>
+
+    <!-- Example of another symptom card -->
+    <article class="p-5 bg-white rounded-2xl shadow-md hover:shadow-lg transition">
+      <div class="flex items-center justify-between">
+        <time class="text-sm font-semibold text-gray-500">02:30 PM</time>
+        <div class="flex space-x-3">
+          <button class="text-blue-500 hover:text-blue-700 transition" aria-label="Edit">
+            ✏️
+          </button>
+          <button class="text-red-500 hover:text-red-700 transition" aria-label="Delete">
+            🗑️
+          </button>
+        </div>
+      </div>
+      <div class="mt-3">
+        <h4 class="text-lg font-bold text-gray-800">เวียนหัว</h4>
+        <p class="text-sm text-gray-600 mt-1">เวียนหัวหลังจากออกกำลังกาย</p>
+      </div>
+    </article>
+
+  </main>
 
 </body>
 
