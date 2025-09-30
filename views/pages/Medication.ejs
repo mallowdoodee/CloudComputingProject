@@ -5,18 +5,12 @@
   <!-- Content -->
   <main class="flex-1 overflow-y-auto p-4 space-y-6">
 
-    <!-- Doctor Appointments -->
-    <section>
-      <h3 class="text-lg font-semibold">Doctor Appointments</h3>
-      <p class="text-sm text-gray-500">You have no appointment today</p>
-    </section>
-
     <!-- Medications -->
     <section>
-      <h3 class="text-lg font-semibold mb-2">Medications</h3>
+      <h3 class="text-2xl font-bold m-2">Medications</h3>
       <h6 class="text-sm font-semibold mb-2 pl-2 text-gray-600">Upcoming</h6>
       <div class="bg-white shadow p-3 rounded-xl p-4 flex flex-col">
-        
+
         <div class="flex items-center justify-between m-2">
           <p class="text-mb text-gray-800">11:00</p>
           <div class="flex gap-5">
@@ -36,19 +30,20 @@
       </div>
     </section>
     
-    <!-- Log -->
+    <div class="border-t border-gray-300 my-4"></div>
+
+    <!-- Medicine -->
     <section>
-      <h3 class="text-lg font-semibold mb-2">Log</h3>
-      <h6 class="text-sm font-semibold mb-2 pl-2 text-gray-600">SYMPTOMS</h6>
-      <div class="space-y-2">
-        <div class="bg-white rounded-xl shadow p-3">
-          <p class="text-sm font-semibold text-gray-800">6:27</p>
-          <p class="text-sm text-gray-600">ปวดท้อง</p>
-        </div>
-        <div class="bg-white rounded-xl shadow p-3">
-          <p class="text-sm font-semibold text-gray-800">8:31</p>
-          <p class="text-sm text-gray-600">ปวดเข่า</p>
-        </div>
+      <div class="flex items-center justify-between">
+        <h3 class="text-2xl font-bold m-2">Medicine</h3>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="mr-4" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 7H9V1C9 0.734784 8.89464 0.48043 8.70711 0.292893C8.51957 0.105357 8.26522 0 8 0C7.73478 0 7.48043 0.105357 7.29289 0.292893C7.10536 0.48043 7 0.734784 7 1V7H1C0.734784 7 0.48043 7.10536 0.292893 7.29289C0.105357 7.48043 0 7.73478 0 8C0 8.26522 0.105357 8.51957 0.292893 8.70711C0.48043 8.89464 0.734784 9 1 9H7V15C7 15.2652 7.10536 15.5196 7.29289 15.7071C7.48043 15.8946 7.73478 16 8 16C8.26522 16 8.51957 15.8946 8.70711 15.7071C8.89464 15.5196 9 15.2652 9 15V9H15C15.2652 9 15.5196 8.89464 15.7071 8.70711C15.8946 8.51957 16 8.26522 16 8C16 7.73478 15.8946 7.48043 15.7071 7.29289C15.5196 7.10536 15.2652 7 15 7Z" fill="#BB271A"/>
+        </svg>
+      </div>
+      <div class="flex items-center justify-between my-2 mx-1">
+        <button class="font-medium rounded-2xl bg-blue-200/75 py-4 px-5">Sertraline</button>
+        <button class="font-medium rounded-2xl bg-pink-200/75 py-4 px-5">Propranolol</button>
+        <button class="font-medium rounded-2xl bg-yellow-200/75 py-4 px-5">Amitriptyline</button>
       </div>
     </section>
 
