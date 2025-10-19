@@ -20,61 +20,67 @@ opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=stylus_note" />
   </div>
 
   <nav class="fixed bottom-0 inset-x-0 bg-white border-t shadow-inner flex justify-around py-3">
+    <div class="w-15 h-10">
+      <!-- Schedule -->
+      <a href="/Schedule"
+      class="flex flex-col items-center 
+        <%= currentPath === '/Schedule' 
+        ? 'text-red-600' 
+        : 'text-gray-600 hover:text-red-600' %>">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
+           class="w-6 h-6 mb-1"
+           fill="currentColor">
+        <path d="M200-640h560v-80H200v80Zm0 0v-80 80Zm0 560q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-40q0-17 11.5-28.5T280-880q17 0 28.5 11.5T320-840v40h320v-40q0-17 11.5-28.5T680-880q17 0 28.5 11.5T720-840v40h40q33 0 56.5 23.5T840-720v187q0 17-11.5 28.5T800-493q-17 0-28.5-11.5T760-533v-27H200v400h232q17 0 28.5 11.5T472-120q0 17-11.5 28.5T432-80H200Zm520 40q-83 0-141.5-58.5T520-240q0-83 58.5-141.5T720-440q83 0 141.5 58.5T920-240q0 83-58.5 141.5T720-40Zm20-208v-92q0-8-6-14t-14-6q-8 0-14 6t-6 14v91q0 8 3 15.5t9 13.5l61 61q6 6 14 6t14-6q6-6 6-14t-6-14l-61-61Z"/>
+      </svg>
+        <span class="text-xs">Schedule</span>
+      </a>
+    </div>
 
-    <!-- Schedule -->
-    <a href="/Schedule"
-    class="flex flex-col items-center 
-      <%= currentPath === '/Schedule' 
-      ? 'text-red-600' 
-      : 'text-gray-600 hover:text-red-600' %>">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
-         class="w-6 h-6 mb-1"
-         fill="currentColor">
-      <path d="M200-640h560v-80H200v80Zm0 0v-80 80Zm0 560q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-40q0-17 11.5-28.5T280-880q17 0 28.5 11.5T320-840v40h320v-40q0-17 11.5-28.5T680-880q17 0 28.5 11.5T720-840v40h40q33 0 56.5 23.5T840-720v187q0 17-11.5 28.5T800-493q-17 0-28.5-11.5T760-533v-27H200v400h232q17 0 28.5 11.5T472-120q0 17-11.5 28.5T432-80H200Zm520 40q-83 0-141.5-58.5T520-240q0-83 58.5-141.5T720-440q83 0 141.5 58.5T920-240q0 83-58.5 141.5T720-40Zm20-208v-92q0-8-6-14t-14-6q-8 0-14 6t-6 14v91q0 8 3 15.5t9 13.5l61 61q6 6 14 6t14-6q6-6 6-14t-6-14l-61-61Z"/>
-    </svg>
-      <span class="text-xs">Schedule</span>
-    </a>
+    <div class="w-15 h-10">
+      <!-- Symptom (เป็นหน้าแรก) -->
+      <a href="/symptom"
+         class="flex flex-col items-center 
+                <%= (currentPath === '/' || currentPath === '/symptom') 
+                      ? 'text-red-600' 
+                      : 'text-gray-600 hover:text-red-600' %>">
+        <!-- ใช้ SVG icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
+           class="w-6 h-6 mb-1"
+           fill="currentColor">
+          <path d="m499-287 335-335-52-52-335 335 52 52Zm-261 87q-100-5-149-42T40-349q0-65 53.5-105.5T242-503q39-3 58.5-12.5T320-542q0-26-29.5-39T193-600l7-80q103 8 151.5 41.5T400-542q0 53-38.5 83T248-423q-64 5-96 23.5T120-349q0 35 28 50.5t94 18.5l-4 80Zm280 7L353-358l382-382q20-20 47.5-20t47.5 20l70 70q20 20 20 47.5T900-575L518-193Zm-159 33q-17 4-30-9t-9-30l33-159 165 165-159 33Z"/>
+        </svg>
+        <span class="text-xs">Symptom</span>
+      </a>
+    </div>
 
-  <!-- Symptom (เป็นหน้าแรก) -->
-  <a href="/symptom"
-     class="flex flex-col items-center 
-            <%= (currentPath === '/' || currentPath === '/symptom') 
-                  ? 'text-red-600' 
-                  : 'text-gray-600 hover:text-red-600' %>">
-    <!-- ใช้ SVG icon -->
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
-       class="w-6 h-6 mb-1"
-       fill="currentColor">
-      <path d="m499-287 335-335-52-52-335 335 52 52Zm-261 87q-100-5-149-42T40-349q0-65 53.5-105.5T242-503q39-3 58.5-12.5T320-542q0-26-29.5-39T193-600l7-80q103 8 151.5 41.5T400-542q0 53-38.5 83T248-423q-64 5-96 23.5T120-349q0 35 28 50.5t94 18.5l-4 80Zm280 7L353-358l382-382q20-20 47.5-20t47.5 20l70 70q20 20 20 47.5T900-575L518-193Zm-159 33q-17 4-30-9t-9-30l33-159 165 165-159 33Z"/>
-    </svg>
-    <span class="text-xs">Symptom</span>
-  </a>
-
-  <!-- Meds -->
-   <a href="/medicine"
-     class="flex flex-col items-center <%= currentPath === '/medicine' ? 'text-red-600' : 'text-gray-600 hover:text-red-600' %>">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
-       class="w-6 h-6 mb-1"
-       fill="currentColor">
-      <path d="M345-120q-94 0-159.5-65.5T120-345q0-45 17-86t49-73l270-270q32-32 73-49t86-17q94 0 159.5 65.5T840-615q0 45-17 86t-49 73L504-186q-32 32-73 49t-86 17Zm266-286 107-106q20-20 31-47t11-56q0-60-42.5-102.5T615-760q-29 0-56 11t-47 31L406-611l205 205ZM345-200q29 0 56-11t47-31l106-107-205-205-107 106q-20 20-31 47t-11 56q0 60 42.5 102.5T345-200Z"/>
-    </svg>
-    <span class="text-xs">Meds</span>
-  </a>
+    <div class="w-15 h-10">
+      <!-- Meds -->
+       <a href="/medicine"
+         class="flex flex-col items-center <%= currentPath === '/medicine' ? 'text-red-600' : 'text-gray-600 hover:text-red-600' %>">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
+           class="w-6 h-6 mb-1"
+           fill="currentColor">
+          <path d="M345-120q-94 0-159.5-65.5T120-345q0-45 17-86t49-73l270-270q32-32 73-49t86-17q94 0 159.5 65.5T840-615q0 45-17 86t-49 73L504-186q-32 32-73 49t-86 17Zm266-286 107-106q20-20 31-47t11-56q0-60-42.5-102.5T615-760q-29 0-56 11t-47 31L406-611l205 205ZM345-200q29 0 56-11t47-31l106-107-205-205-107 106q-20 20-31 47t-11 56q0 60 42.5 102.5T345-200Z"/>
+        </svg>
+        <span class="text-xs">Meds</span>
+      </a>
+    </div>
   
-
-  <!-- List -->
-  <a href="/List"
-  class="flex flex-col items-center 
-    <%= currentPath === '/List' 
-    ? 'text-red-600' 
-    : 'text-gray-600 hover:text-red-600' %>">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
-       class="w-6 h-6 mb-1"
-       fill="currentColor">
-    <path d="M320-280q17 0 28.5-11.5T360-320q0-17-11.5-28.5T320-360q-17 0-28.5 11.5T280-320q0 17 11.5 28.5T320-280Zm0-160q17 0 28.5-11.5T360-480q0-17-11.5-28.5T320-520q-17 0-28.5 11.5T280-480q0 17 11.5 28.5T320-440Zm0-160q17 0 28.5-11.5T360-640q0-17-11.5-28.5T320-680q-17 0-28.5 11.5T280-640q0 17 11.5 28.5T320-600Zm160 320h160q17 0 28.5-11.5T680-320q0-17-11.5-28.5T640-360H480q-17 0-28.5 11.5T440-320q0 17 11.5 28.5T480-280Zm0-160h160q17 0 28.5-11.5T680-480q0-17-11.5-28.5T640-520H480q-17 0-28.5 11.5T440-480q0 17 11.5 28.5T480-440Zm0-160h160q17 0 28.5-11.5T680-640q0-17-11.5-28.5T640-680H480q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0-560v560-560Z"/>
-  </svg>
-    <span class="text-xs">List</span>
-  </a>
+    <div class="w-15 h-10">
+      <!-- List -->
+      <a href="/List"
+      class="flex flex-col items-center 
+        <%= currentPath === '/List' 
+        ? 'text-red-600' 
+        : 'text-gray-600 hover:text-red-600' %>">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
+           class="w-6 h-6 mb-1"
+           fill="currentColor">
+        <path d="M320-280q17 0 28.5-11.5T360-320q0-17-11.5-28.5T320-360q-17 0-28.5 11.5T280-320q0 17 11.5 28.5T320-280Zm0-160q17 0 28.5-11.5T360-480q0-17-11.5-28.5T320-520q-17 0-28.5 11.5T280-480q0 17 11.5 28.5T320-440Zm0-160q17 0 28.5-11.5T360-640q0-17-11.5-28.5T320-680q-17 0-28.5 11.5T280-640q0 17 11.5 28.5T320-600Zm160 320h160q17 0 28.5-11.5T680-320q0-17-11.5-28.5T640-360H480q-17 0-28.5 11.5T440-320q0 17 11.5 28.5T480-280Zm0-160h160q17 0 28.5-11.5T680-480q0-17-11.5-28.5T640-520H480q-17 0-28.5 11.5T440-480q0 17 11.5 28.5T480-440Zm0-160h160q17 0 28.5-11.5T680-640q0-17-11.5-28.5T640-680H480q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0-560v560-560Z"/>
+      </svg>
+        <span class="text-xs">List</span>
+      </a>
+    </div>
 
 </nav>
 

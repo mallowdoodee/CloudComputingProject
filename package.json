@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node index.js",
     "build-css": "tailwindcss build scr/styles.css -o public/styles.css"
   },
   "keywords": [],
