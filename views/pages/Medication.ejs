@@ -9,27 +9,29 @@
     <section>
       <h3 class="text-2xl font-bold m-2">Medications</h3>
       <h6 class="text-sm font-semibold mb-2 pl-2 text-gray-600">Upcoming</h6>
-      <div class="bg-white shadow p-3 rounded-xl p-4 flex flex-col" data-medication-card>
+      <div class="space-y-4" data-upcoming-list>
+        <div class="bg-white shadow p-3 rounded-xl p-4 flex flex-col" data-medication-card data-medication-id="upcoming-initial">
 
-        <div class="flex items-center justify-between m-2">
-          <p class="text-mb text-gray-800" data-medication-time>11:00</p>
-          <div class="flex gap-3">
-            <button type="button" class="rounded-full p-1 transition hover:bg-blue-100" data-action="edit-medication" aria-label="Edit medication">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18.7553 17.9422H2.75533C2.49012 17.9422 2.23576 18.0476 2.04822 18.2351C1.86069 18.4227 1.75533 18.677 1.75533 18.9422C1.75533 19.2075 1.86069 19.4618 2.04822 19.6493C2.23576 19.8369 2.49012 19.9422 2.75533 19.9422H18.7553C19.0206 19.9422 19.2749 19.8369 19.4625 19.6493C19.65 19.4618 19.7553 19.2075 19.7553 18.9422C19.7553 18.677 19.65 18.4227 19.4625 18.2351C19.2749 18.0476 19.0206 17.9422 18.7553 17.9422ZM2.75533 15.9422H2.84533L7.01533 15.5622C7.47214 15.5167 7.89938 15.3155 8.22533 14.9922L17.2253 5.99224C17.5746 5.62321 17.7634 5.13075 17.7503 4.62278C17.7372 4.1148 17.5232 3.63275 17.1553 3.28224L14.4153 0.542241C14.0577 0.206337 13.5891 0.0135995 13.0986 0.000692758C12.6081 -0.012214 12.13 0.15561 11.7553 0.472241L2.75533 9.47224C2.4321 9.79821 2.23084 10.2254 2.18533 10.6822L1.75533 14.8522C1.74186 14.9987 1.76086 15.1463 1.811 15.2846C1.86112 15.4229 1.94114 15.5484 2.04533 15.6522C2.13877 15.7449 2.24958 15.8182 2.37142 15.868C2.49326 15.9178 2.62373 15.943 2.75533 15.9422ZM13.0253 1.94224L15.7553 4.67224L13.7553 6.62224L11.0753 3.94224L13.0253 1.94224ZM4.12533 10.8522L9.75533 5.26224L12.4553 7.96224L6.85533 13.5622L3.85533 13.8422L4.12533 10.8522Z" fill="#0088FF"/>
-              </svg>
-            </button>
-            <button type="button" class="rounded-full p-1 transition hover:bg-red-100" data-action="remove-medication" aria-label="Remove medication">
-              <svg width="18" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 16C1 17.1 1.9 18 3 18H11C12.1 18 13 17.1 13 16V6C13 4.9 12.1 4 11 4H3C1.9 4 1 4.9 1 6V16ZM13 1H10.5L9.79 0.29C9.61 0.11 9.35 0 9.09 0H4.91C4.65 0 4.39 0.11 4.21 0.29L3.5 1H1C0.45 1 0 1.45 0 2C0 2.55 0.45 3 1 3H13C13.55 3 14 2.55 14 2C14 1.45 13.55 1 13 1Z" fill="#FF383C"/>
-              </svg>
-            </button>
+          <div class="flex items-center justify-between m-2">
+            <p class="text-mb text-gray-800" data-medication-time>11:00</p>
+            <div class="flex gap-3">
+              <button type="button" class="rounded-full p-1 transition hover:bg-blue-100" data-action="edit-medication" aria-label="Edit medication">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.7553 17.9422H2.75533C2.49012 17.9422 2.23576 18.0476 2.04822 18.2351C1.86069 18.4227 1.75533 18.677 1.75533 18.9422C1.75533 19.2075 1.86069 19.4618 2.04822 19.6493C2.23576 19.8369 2.49012 19.9422 2.75533 19.9422H18.7553C19.0206 19.9422 19.2749 19.8369 19.4625 19.6493C19.65 19.4618 19.7553 19.2075 19.7553 18.9422C19.7553 18.677 19.65 18.4227 19.4625 18.2351C19.2749 18.0476 19.0206 17.9422 18.7553 17.9422ZM2.75533 15.9422H2.84533L7.01533 15.5622C7.47214 15.5167 7.89938 15.3155 8.22533 14.9922L17.2253 5.99224C17.5746 5.62321 17.7634 5.13075 17.7503 4.62278C17.7372 4.1148 17.5232 3.63275 17.1553 3.28224L14.4153 0.542241C14.0577 0.206337 13.5891 0.0135995 13.0986 0.000692758C12.6081 -0.012214 12.13 0.15561 11.7553 0.472241L2.75533 9.47224C2.4321 9.79821 2.23084 10.2254 2.18533 10.6822L1.75533 14.8522C1.74186 14.9987 1.76086 15.1463 1.811 15.2846C1.86112 15.4229 1.94114 15.5484 2.04533 15.6522C2.13877 15.7449 2.24958 15.8182 2.37142 15.868C2.49326 15.9178 2.62373 15.943 2.75533 15.9422ZM13.0253 1.94224L15.7553 4.67224L13.7553 6.62224L11.0753 3.94224L13.0253 1.94224ZM4.12533 10.8522L9.75533 5.26224L12.4553 7.96224L6.85533 13.5622L3.85533 13.8422L4.12533 10.8522Z" fill="#0088FF"/>
+                </svg>
+              </button>
+              <button type="button" class="rounded-full p-1 transition hover:bg-red-100" data-action="remove-medication" aria-label="Remove medication">
+                <svg width="18" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 16C1 17.1 1.9 18 3 18H11C12.1 18 13 17.1 13 16V6C13 4.9 12.1 4 11 4H3C1.9 4 1 4.9 1 6V16ZM13 1H10.5L9.79 0.29C9.61 0.11 9.35 0 9.09 0H4.91C4.65 0 4.39 0.11 4.21 0.29L3.5 1H1C0.45 1 0 1.45 0 2C0 2.55 0.45 3 1 3H13C13.55 3 14 2.55 14 2C14 1.45 13.55 1 13 1Z" fill="#FF383C"/>
+                </svg>
+              </button>
+            </div>
+
           </div>
-
-        </div>
-        <div class="flex items-center justify-between bg-pink-300 text-black px-4 py-1 rounded-full w-full">
-          <p class="font-semibold" data-medication-name>Propranolol</p>
-          <span class="text-sm font-bold ml-auto" data-medication-amount>x 1</span>
+          <div class="flex items-center justify-between bg-pink-300 text-black px-4 py-1 rounded-full w-full">
+            <p class="font-semibold" data-medication-name>Propranolol</p>
+            <span class="text-sm font-bold ml-auto" data-medication-amount>x 1</span>
+          </div>
         </div>
       </div>
     </section>
@@ -40,15 +42,13 @@
     <section>
       <div class="flex items-center justify-between">
         <h3 class="text-2xl font-bold m-2">Medicine</h3>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="mr-4" xmlns="http://www.w3.org/2000/svg">
-        <path d="M15 7H9V1C9 0.734784 8.89464 0.48043 8.70711 0.292893C8.51957 0.105357 8.26522 0 8 0C7.73478 0 7.48043 0.105357 7.29289 0.292893C7.10536 0.48043 7 0.734784 7 1V7H1C0.734784 7 0.48043 7.10536 0.292893 7.29289C0.105357 7.48043 0 7.73478 0 8C0 8.26522 0.105357 8.51957 0.292893 8.70711C0.48043 8.89464 0.734784 9 1 9H7V15C7 15.2652 7.10536 15.5196 7.29289 15.7071C7.48043 15.8946 7.73478 16 8 16C8.26522 16 8.51957 15.8946 8.70711 15.7071C8.89464 15.5196 9 15.2652 9 15V9H15C15.2652 9 15.5196 8.89464 15.7071 8.70711C15.8946 8.51957 16 8.26522 16 8C16 7.73478 15.8946 7.48043 15.7071 7.29289C15.5196 7.10536 15.2652 7 15 7Z" fill="#BB271A"/>
-        </svg>
+        <button type="button" class="mr-4 rounded-full p-1 text-rose-700 transition hover:bg-rose-100" data-action="open-add-medicine" aria-label="Add medicine">
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 7H9V1C9 0.734784 8.89464 0.48043 8.70711 0.292893C8.51957 0.105357 8.26522 0 8 0C7.73478 0 7.48043 0.105357 7.29289 0.292893C7.10536 0.48043 7 0.734784 7 1V7H1C0.734784 7 0.48043 7.10536 0.292893 7.29289C0.105357 7.48043 0 7.73478 0 8C0 8.26522 0.105357 8.51957 0.292893 8.70711C0.48043 8.89464 0.734784 9 1 9H7V15C7 15.2652 7.10536 15.5196 7.29289 15.7071C7.48043 15.8946 7.73478 16 8 16C8.26522 16 8.51957 15.8946 8.70711 15.7071C8.89464 15.5196 9 15.2652 9 15V9H15C15.2652 9 15.5196 8.89464 15.7071 8.70711C15.8946 8.51957 16 8.26522 16 8C16 7.73478 15.8946 7.48043 15.7071 7.29289C15.5196 7.10536 15.2652 7 15 7Z" fill="#BB271A"/>
+          </svg>
+        </button>
       </div>
-      <div class="flex items-center justify-between my-2 mx-1">
-        <button class="font-medium rounded-2xl bg-blue-200/75 py-4 px-5">Sertraline</button>
-        <button class="font-medium rounded-2xl bg-pink-200/75 py-4 px-5">Propranolol</button>
-        <button class="font-medium rounded-2xl bg-yellow-200/75 py-4 px-5">Amitriptyline</button>
-      </div>
+      <div id="medicineList" class="my-2 mx-1 flex flex-wrap gap-3"></div>
     </section>
 
   </main>
@@ -59,6 +59,37 @@
       <div class="mt-5 flex items-center justify-evenly border-t border-gray-200 pt-4">
         <button type="button" class="text-base font-medium text-gray-600" data-action="cancel-remove">ยกเลิก</button>
         <button type="button" class="text-base font-medium text-rose-500" data-action="confirm-remove">ลบ</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="addMedicineModal" class="hidden fixed inset-0 z-40 flex items-center justify-center bg-black/40 px-4" aria-hidden="true">
+    <div class="w-full max-w-sm rounded-3xl bg-white p-6 shadow-xl">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-semibold">Add Medicine</h2>
+        <button type="button" class="text-blue-600 font-medium" data-action="cancel-add-medicine">Cancel</button>
+      </div>
+      <form id="addMedicineForm" class="mt-6 space-y-5">
+        <div>
+          <label for="medicineName" class="text-sm font-medium text-gray-600 block mb-2">Medicine Name</label>
+          <input id="medicineName" name="medicineName" type="text" class="w-full rounded-2xl border border-gray-200 bg-gray-100 px-4 py-3 text-gray-800 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200" placeholder="Propranolol" autocomplete="off">
+        </div>
+        <div>
+          <label for="medicineColor" class="text-sm font-medium text-gray-600 block mb-2">Color</label>
+          <input id="medicineColor" name="medicineColor" type="text" class="w-full rounded-2xl border border-gray-200 bg-gray-100 px-4 py-3 text-gray-800 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200" placeholder="#FFC9E8" autocomplete="off">
+        </div>
+        <button type="submit" class="mt-4 w-full rounded-2xl bg-rose-500 py-3 text-base font-semibold text-white transition hover:bg-rose-600">Save</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="medicineOptionsModal" class="hidden fixed inset-0 z-40 flex items-center justify-center bg-black/40 px-4" aria-hidden="true">
+    <div class="w-full max-w-xs rounded-3xl bg-white py-2 text-center shadow-xl">
+      <div class="flex flex-col divide-y divide-gray-200 text-base font-medium text-gray-800">
+        <button type="button" class="py-3 transition hover:bg-gray-50" data-action="record-time">บันทึกเวลา..</button>
+        <button type="button" class="py-3 transition hover:bg-gray-50" data-action="edit-medicine">แก้ไขยา</button>
+        <button type="button" class="py-3 font-semibold text-rose-500 transition hover:bg-gray-50" data-action="delete-medicine">ลบยา</button>
+        <button type="button" class="py-3 transition hover:bg-gray-50" data-action="cancel-options">ยกเลิก</button>
       </div>
     </div>
   </div>
@@ -96,24 +127,63 @@
 
   <script>
     (() => {
-      const modal = document.getElementById("editMedicationModal");
-      if (!modal) return;
-
-      const form = document.getElementById("editMedicationForm");
-      const nameInput = document.getElementById("editMedicineName");
-      const timeInput = document.getElementById("editMedicineTime");
-      const amountDisplay = document.getElementById("editMedicineAmount");
-      const editButtons = document.querySelectorAll("[data-action='edit-medication']");
-      const removeButtons = document.querySelectorAll("[data-action='remove-medication']");
-      const cancelButton = modal.querySelector("[data-action='cancel-edit']");
-      const decrementButton = modal.querySelector("[data-action='decrement']");
-      const incrementButton = modal.querySelector("[data-action='increment']");
-      let activeCard = null;
-
+      const upcomingList = document.querySelector("[data-upcoming-list]");
+      const editModal = document.getElementById("editMedicationModal");
       const removeModal = document.getElementById("removeMedicationModal");
-      const cancelRemoveButton = removeModal?.querySelector("[data-action='cancel-remove']");
-      const confirmRemoveButton = removeModal?.querySelector("[data-action='confirm-remove']");
-      let cardPendingRemoval = null;
+      const addMedicineModal = document.getElementById("addMedicineModal");
+      const optionsModal = document.getElementById("medicineOptionsModal");
+      const medicineList = document.getElementById("medicineList");
+      if (!upcomingList || !editModal || !removeModal || !addMedicineModal || !optionsModal || !medicineList) return;
+
+      const editForm = document.getElementById("editMedicationForm");
+      const editNameInput = document.getElementById("editMedicineName");
+      const editTimeInput = document.getElementById("editMedicineTime");
+      const editAmountDisplay = document.getElementById("editMedicineAmount");
+      const cancelEditButton = editModal.querySelector("[data-action='cancel-edit']");
+      const decrementButton = editModal.querySelector("[data-action='decrement']");
+      const incrementButton = editModal.querySelector("[data-action='increment']");
+
+      const removeCancelButton = removeModal.querySelector("[data-action='cancel-remove']");
+      const removeConfirmButton = removeModal.querySelector("[data-action='confirm-remove']");
+
+      const addMedicineForm = document.getElementById("addMedicineForm");
+      const addMedicineNameInput = document.getElementById("medicineName");
+      const addMedicineColorInput = document.getElementById("medicineColor");
+      const cancelAddMedicineButton = addMedicineModal.querySelector("[data-action='cancel-add-medicine']");
+
+      const optionsRecordButton = optionsModal.querySelector("[data-action='record-time']");
+      const optionsEditButton = optionsModal.querySelector("[data-action='edit-medicine']");
+      const optionsDeleteButton = optionsModal.querySelector("[data-action='delete-medicine']");
+      const optionsCancelButton = optionsModal.querySelector("[data-action='cancel-options']");
+
+      const showOverlay = (element) => {
+        element.classList.remove("hidden");
+        element.setAttribute("aria-hidden", "false");
+      };
+
+      const hideOverlay = (element) => {
+        element.classList.add("hidden");
+        element.setAttribute("aria-hidden", "true");
+      };
+
+      const isDefined = (value) => value !== undefined && value !== null;
+      const getTextContent = (element) =>
+        element && typeof element.textContent === "string" ? element.textContent.trim() : "";
+
+      const generateId = (() => {
+        let counter = 0;
+        return (prefix = "id") => `${prefix}-${Date.now()}-${++counter}`;
+      })();
+
+      const normalizeColor = (value) => {
+        if (typeof value !== "string") return "#FFC9E8";
+        const trimmed = value.trim();
+        const hex = trimmed.startsWith("#") ? trimmed.slice(1) : trimmed;
+        if (/^[0-9A-Fa-f]{6}$/.test(hex)) {
+          return `#${hex.toUpperCase()}`;
+        }
+        return "#FFC9E8";
+      };
 
       const toTimeValue = (timeString) => {
         const match = timeString.match(/^(\d{1,2}):(\d{2})$/);
@@ -129,122 +199,399 @@
         return `${parseInt(hours, 10).toString().padStart(2, "0")}:${minutes}`;
       };
 
-      const openModal = (card) => {
-        activeCard = card;
-        const currentName = card.querySelector("[data-medication-name]")?.textContent.trim() ?? "";
-        const currentTime = card.querySelector("[data-medication-time]")?.textContent.trim() ?? "";
-        const amountText = card.querySelector("[data-medication-amount]")?.textContent ?? "";
-        const currentAmount = parseInt(amountText.replace(/\D/g, ""), 10) || 1;
+      const medicines = [
+        { id: generateId("med"), name: "Sertraline", color: "#BFDBFE" },
+        { id: generateId("med"), name: "Propranolol", color: "#FFC9E8" },
+        { id: generateId("med"), name: "Amitriptyline", color: "#FDE68A" }
+      ];
 
-        nameInput.value = currentName;
-        amountDisplay.textContent = currentAmount;
-        timeInput.value = toTimeValue(currentTime);
+      let activeCard = null;
+      let cardPendingRemoval = null;
+      let selectedMedicineId = null;
+      let medicineFormMode = "create";
+      let editingMedicineId = null;
+      let editingOriginalName = "";
 
-        modal.classList.remove("hidden");
-        modal.setAttribute("aria-hidden", "false");
-        nameInput.focus({ preventScroll: true });
+      const renderMedicines = () => {
+        medicineList.innerHTML = "";
+        medicines.forEach((medicine) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "font-medium rounded-2xl px-5 py-3 text-sm text-gray-800 shadow-sm transition hover:shadow";
+          button.dataset.medicineId = medicine.id;
+          button.textContent = medicine.name;
+          button.style.backgroundColor = medicine.color;
+          medicineList.appendChild(button);
+        });
       };
 
-      const closeModal = () => {
-        modal.classList.add("hidden");
-        modal.setAttribute("aria-hidden", "true");
+      const syncUpcomingCardNames = (oldName, newName) => {
+        if (!oldName || oldName === newName) return;
+        const cards = upcomingList.querySelectorAll("[data-medication-card]");
+        cards.forEach((card) => {
+          const nameEl = card.querySelector("[data-medication-name]");
+          if (nameEl && nameEl.textContent.trim() === oldName) {
+            nameEl.textContent = newName;
+          }
+        });
+      };
+
+      const openEditModal = (card, overrides) => {
+        if (!card) return;
+        const safeOverrides = overrides || {};
+        activeCard = card;
+        const nameEl = card.querySelector("[data-medication-name]");
+        const timeEl = card.querySelector("[data-medication-time]");
+        const amountEl = card.querySelector("[data-medication-amount]");
+
+        const baseName = isDefined(safeOverrides.name) ? String(safeOverrides.name) : getTextContent(nameEl);
+        const baseTime = isDefined(safeOverrides.time) ? String(safeOverrides.time) : getTextContent(timeEl);
+
+        let amountValue;
+        if (isDefined(safeOverrides.amount)) {
+          amountValue = parseInt(safeOverrides.amount, 10);
+        }
+        if (!amountValue || Number.isNaN(amountValue)) {
+          const amountSource = amountEl && amountEl.textContent ? amountEl.textContent : "";
+          amountValue = parseInt(amountSource.replace(/\D/g, ""), 10);
+        }
+        if (!amountValue || Number.isNaN(amountValue)) {
+          amountValue = 1;
+        }
+
+        editNameInput.value = baseName;
+        editAmountDisplay.textContent = amountValue;
+        editTimeInput.value = toTimeValue(baseTime);
+
+        showOverlay(editModal);
+        if (editNameInput && typeof editNameInput.focus === "function") {
+          editNameInput.focus({ preventScroll: true });
+        }
+      };
+
+      const closeEditModal = () => {
+        hideOverlay(editModal);
         activeCard = null;
       };
 
-      editButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-          const card = button.closest("[data-medication-card]");
-          if (!card) return;
-          openModal(card);
-        });
-      });
-
-      cancelButton?.addEventListener("click", () => closeModal());
-
-      modal.addEventListener("click", (event) => {
-        if (event.target === modal) {
-          closeModal();
-        }
-      });
-
-      modal.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") {
-          event.preventDefault();
-          closeModal();
-        }
-      });
-
-      decrementButton?.addEventListener("click", () => {
-        const current = parseInt(amountDisplay.textContent, 10) || 1;
-        if (current > 1) {
-          amountDisplay.textContent = current - 1;
-        }
-      });
-
-      incrementButton?.addEventListener("click", () => {
-        const current = parseInt(amountDisplay.textContent, 10) || 1;
-        amountDisplay.textContent = current + 1;
-      });
-
-      form?.addEventListener("submit", (event) => {
-        event.preventDefault();
-        if (!activeCard) return;
-
-        const name = nameInput.value.trim() || "Unnamed";
-        const time = formatTimeDisplay(timeInput.value);
-        const amount = parseInt(amountDisplay.textContent, 10) || 1;
-
-        const nameEl = activeCard.querySelector("[data-medication-name]");
-        const timeEl = activeCard.querySelector("[data-medication-time]");
-        const amountEl = activeCard.querySelector("[data-medication-amount]");
-
-        if (nameEl) nameEl.textContent = name;
-        if (timeEl && time) timeEl.textContent = time;
-        if (amountEl) amountEl.textContent = `x ${amount}`;
-
-        closeModal();
-      });
-
       const openRemoveModal = (card) => {
         cardPendingRemoval = card;
-        removeModal?.classList.remove("hidden");
-        removeModal?.setAttribute("aria-hidden", "false");
+        showOverlay(removeModal);
       };
 
       const closeRemoveModal = () => {
-        removeModal?.classList.add("hidden");
-        removeModal?.setAttribute("aria-hidden", "true");
+        hideOverlay(removeModal);
         cardPendingRemoval = null;
       };
 
-      removeButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-          const card = button.closest("[data-medication-card]");
-          if (!card) return;
-          openRemoveModal(card);
+      const openMedicineForm = (mode = "create", medicine = null) => {
+        medicineFormMode = mode;
+        const targetMedicine = medicine || null;
+        editingMedicineId = targetMedicine && isDefined(targetMedicine.id) ? targetMedicine.id : null;
+        editingOriginalName = targetMedicine && targetMedicine.name ? targetMedicine.name : "";
+
+        if (addMedicineForm && typeof addMedicineForm.reset === "function") {
+          addMedicineForm.reset();
+        }
+
+        addMedicineNameInput.value = targetMedicine && targetMedicine.name ? targetMedicine.name : "";
+        addMedicineColorInput.value = targetMedicine && targetMedicine.color ? targetMedicine.color : "#FFC9E8";
+
+        showOverlay(addMedicineModal);
+        if (addMedicineNameInput && typeof addMedicineNameInput.focus === "function") {
+          addMedicineNameInput.focus({ preventScroll: true });
+        }
+      };
+
+      const closeMedicineForm = () => {
+        hideOverlay(addMedicineModal);
+        medicineFormMode = "create";
+        editingMedicineId = null;
+        editingOriginalName = "";
+      };
+
+      const openMedicineOptions = (medicineId) => {
+        selectedMedicineId = medicineId;
+        showOverlay(optionsModal);
+      };
+
+      const closeMedicineOptions = () => {
+        hideOverlay(optionsModal);
+        selectedMedicineId = null;
+      };
+
+      const createUpcomingCard = (medicine) => {
+        const template = upcomingList.querySelector("[data-medication-card]");
+        let card;
+        if (template) {
+          card = template.cloneNode(true);
+        } else {
+          card = document.createElement("div");
+          card.className = "bg-white shadow p-3 rounded-xl p-4 flex flex-col";
+          card.setAttribute("data-medication-card", "");
+          card.innerHTML = `
+            <div class="flex items-center justify-between m-2">
+              <p class="text-mb text-gray-800" data-medication-time>--:--</p>
+              <div class="flex gap-3">
+                <button type="button" class="rounded-full p-1 transition hover:bg-blue-100" data-action="edit-medication" aria-label="Edit medication">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18.7553 17.9422H2.75533C2.49012 17.9422 2.23576 18.0476 2.04822 18.2351C1.86069 18.4227 1.75533 18.677 1.75533 18.9422C1.75533 19.2075 1.86069 19.4618 2.04822 19.6493C2.23576 19.8369 2.49012 19.9422 2.75533 19.9422H18.7553C19.0206 19.9422 19.2749 19.8369 19.4625 19.6493C19.65 19.4618 19.7553 19.2075 19.7553 18.9422C19.7553 18.677 19.65 18.4227 19.4625 18.2351C19.2749 18.0476 19.0206 17.9422 18.7553 17.9422ZM2.75533 15.9422H2.84533L7.01533 15.5622C7.47214 15.5167 7.89938 15.3155 8.22533 14.9922L17.2253 5.99224C17.5746 5.62321 17.7634 5.13075 17.7503 4.62278C17.7372 4.1148 17.5232 3.63275 17.1553 3.28224L14.4153 0.542241C14.0577 0.206337 13.5891 0.0135995 13.0986 0.000692758C12.6081 -0.012214 12.13 0.15561 11.7553 0.472241L2.75533 9.47224C2.4321 9.79821 2.23084 10.2254 2.18533 10.6822L1.75533 14.8522C1.74186 14.9987 1.76086 15.1463 1.811 15.2846C1.86112 15.4229 1.94114 15.5484 2.04533 15.6522C2.13877 15.7449 2.24958 15.8182 2.37142 15.868C2.49326 15.9178 2.62373 15.943 2.75533 15.9422ZM13.0253 1.94224L15.7553 4.67224L13.7553 6.62224L11.0753 3.94224L13.0253 1.94224ZM4.12533 10.8522L9.75533 5.26224L12.4553 7.96224L6.85533 13.5622L3.85533 13.8422L4.12533 10.8522Z" fill="#0088FF"/>
+                  </svg>
+                </button>
+                <button type="button" class="rounded-full p-1 transition hover:bg-red-100" data-action="remove-medication" aria-label="Remove medication">
+                  <svg width="18" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 16C1 17.1 1.9 18 3 18H11C12.1 18 13 17.1 13 16V6C13 4.9 12.1 4 11 4H3C1.9 4 1 4.9 1 6V16ZM13 1H10.5L9.79 0.29C9.61 0.11 9.35 0 9.09 0H4.91C4.65 0 4.39 0.11 4.21 0.29L3.5 1H1C0.45 1 0 1.45 0 2C0 2.55 0.45 3 1 3H13C13.55 3 14 2.55 14 2C14 1.45 13.55 1 13 1Z" fill="#FF383C"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="flex items-center justify-between bg-pink-300 text-black px-4 py-1 rounded-full w-full">
+              <p class="font-semibold" data-medication-name></p>
+              <span class="text-sm font-bold ml-auto" data-medication-amount>x 1</span>
+            </div>
+          `;
+        }
+
+        card.dataset.medicationId = generateId("upcoming");
+
+        const timeEl = card.querySelector("[data-medication-time]");
+        const nameEl = card.querySelector("[data-medication-name]");
+        const amountEl = card.querySelector("[data-medication-amount]");
+
+        if (timeEl) timeEl.textContent = "--:--";
+        if (nameEl) nameEl.textContent = medicine.name;
+        if (amountEl) amountEl.textContent = "x 1";
+
+        upcomingList.appendChild(card);
+        attachCardInteractions(card);
+        return card;
+      };
+
+      function attachCardInteractions(card) {
+        if (!card) return;
+        const editButton = card.querySelector("[data-action='edit-medication']");
+        const removeButton = card.querySelector("[data-action='remove-medication']");
+
+        if (editButton) {
+          editButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            openEditModal(card);
+          });
+        }
+
+        if (removeButton) {
+          removeButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            openRemoveModal(card);
+          });
+        }
+      }
+
+      upcomingList.querySelectorAll("[data-medication-card]").forEach((card) =>
+        attachCardInteractions(card)
+      );
+
+      if (decrementButton) {
+        decrementButton.addEventListener("click", () => {
+          const current = parseInt(editAmountDisplay.textContent, 10) || 1;
+          if (current > 1) {
+            editAmountDisplay.textContent = current - 1;
+          }
         });
+      }
+
+      if (incrementButton) {
+        incrementButton.addEventListener("click", () => {
+          const current = parseInt(editAmountDisplay.textContent, 10) || 1;
+          editAmountDisplay.textContent = current + 1;
+        });
+      }
+
+      if (editForm) {
+        editForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+          if (!activeCard) return;
+
+          const name = editNameInput.value.trim() || "Unnamed";
+          const timeValue = editTimeInput.value;
+          const time = formatTimeDisplay(timeValue);
+          const amount = parseInt(editAmountDisplay.textContent, 10) || 1;
+
+          const nameEl = activeCard.querySelector("[data-medication-name]");
+          const timeEl = activeCard.querySelector("[data-medication-time]");
+          const amountEl = activeCard.querySelector("[data-medication-amount]");
+
+          if (nameEl) nameEl.textContent = name;
+          if (timeEl) {
+            if (time) {
+              timeEl.textContent = time;
+            } else if (!timeEl.textContent.trim()) {
+              timeEl.textContent = "--:--";
+            }
+          }
+          if (amountEl) amountEl.textContent = `x ${amount}`;
+
+          closeEditModal();
+        });
+      }
+
+      if (cancelEditButton) {
+        cancelEditButton.addEventListener("click", () => closeEditModal());
+      }
+
+      editModal.addEventListener("click", (event) => {
+        if (event.target === editModal) {
+          closeEditModal();
+        }
       });
 
-      cancelRemoveButton?.addEventListener("click", () => closeRemoveModal());
-
-      confirmRemoveButton?.addEventListener("click", () => {
-        if (!cardPendingRemoval) return;
-        cardPendingRemoval.remove();
-        closeRemoveModal();
+      editModal.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          event.preventDefault();
+          closeEditModal();
+        }
       });
 
-      removeModal?.addEventListener("click", (event) => {
+      if (removeCancelButton) {
+        removeCancelButton.addEventListener("click", () => closeRemoveModal());
+      }
+
+      if (removeConfirmButton) {
+        removeConfirmButton.addEventListener("click", () => {
+          if (!cardPendingRemoval) return;
+          cardPendingRemoval.remove();
+          closeRemoveModal();
+        });
+      }
+
+      removeModal.addEventListener("click", (event) => {
         if (event.target === removeModal) {
           closeRemoveModal();
         }
       });
 
-      removeModal?.addEventListener("keydown", (event) => {
+      removeModal.addEventListener("keydown", (event) => {
         if (event.key === "Escape") {
           event.preventDefault();
           closeRemoveModal();
         }
       });
+
+      if (cancelAddMedicineButton) {
+        cancelAddMedicineButton.addEventListener("click", () => closeMedicineForm());
+      }
+
+      addMedicineModal.addEventListener("click", (event) => {
+        if (event.target === addMedicineModal) {
+          closeMedicineForm();
+        }
+      });
+
+      addMedicineModal.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          event.preventDefault();
+          closeMedicineForm();
+        }
+      });
+
+      if (addMedicineForm) {
+        addMedicineForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const name = addMedicineNameInput.value.trim();
+          if (!name) {
+            if (addMedicineNameInput && typeof addMedicineNameInput.focus === "function") {
+              addMedicineNameInput.focus();
+            }
+            return;
+          }
+
+          const color = normalizeColor(addMedicineColorInput.value);
+          addMedicineColorInput.value = color;
+
+          if (medicineFormMode === "edit" && editingMedicineId) {
+            const medicine = medicines.find((item) => item.id === editingMedicineId);
+            if (medicine) {
+              const previousName = medicine.name;
+              medicine.name = name;
+              medicine.color = color;
+              renderMedicines();
+              syncUpcomingCardNames(previousName, name);
+            }
+          } else {
+            medicines.push({ id: generateId("med"), name, color });
+            renderMedicines();
+          }
+
+          closeMedicineForm();
+        });
+      }
+
+      if (optionsRecordButton) {
+        optionsRecordButton.addEventListener("click", () => {
+          if (!selectedMedicineId) return;
+          const medicine = medicines.find((item) => item.id === selectedMedicineId);
+          if (!medicine) return;
+          const card = createUpcomingCard(medicine);
+          closeMedicineOptions();
+          openEditModal(card, { name: medicine.name, time: "", amount: 1 });
+        });
+      }
+
+      if (optionsEditButton) {
+        optionsEditButton.addEventListener("click", () => {
+          if (!selectedMedicineId) return;
+          const medicine = medicines.find((item) => item.id === selectedMedicineId);
+          if (!medicine) return;
+          closeMedicineOptions();
+          openMedicineForm("edit", medicine);
+        });
+      }
+
+      if (optionsDeleteButton) {
+        optionsDeleteButton.addEventListener("click", () => {
+          if (!selectedMedicineId) return;
+          const index = medicines.findIndex((item) => item.id === selectedMedicineId);
+          if (index === -1) return;
+          medicines.splice(index, 1);
+          renderMedicines();
+          closeMedicineOptions();
+        });
+      }
+
+      if (optionsCancelButton) {
+        optionsCancelButton.addEventListener("click", () => closeMedicineOptions());
+      }
+
+      optionsModal.addEventListener("click", (event) => {
+        if (event.target === optionsModal) {
+          closeMedicineOptions();
+        }
+      });
+
+      optionsModal.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          event.preventDefault();
+          closeMedicineOptions();
+        }
+      });
+
+      medicineList.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-medicine-id]");
+        if (!button) return;
+        openMedicineOptions(button.dataset.medicineId);
+      });
+
+      document.addEventListener("click", (event) => {
+        const addTrigger = event.target.closest("[data-action='open-add-medicine']");
+        if (addTrigger) {
+          closeMedicineOptions();
+          openMedicineForm("create");
+        }
+      });
+
+      renderMedicines();
     })();
   </script>
 
