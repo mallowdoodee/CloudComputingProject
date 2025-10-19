@@ -9,8 +9,8 @@
     <section>
       <h3 class="text-2xl font-bold m-2">Medications</h3>
       <h6 class="text-sm font-semibold mb-2 pl-2 text-gray-600">Upcoming</h6>
-      <div class="space-y-4" data-upcoming-list>
-        <div class="bg-white shadow p-3 rounded-xl p-4 flex flex-col" data-medication-card data-medication-id="upcoming-initial">
+      <div class="space-y-4 max-h-72 overflow-y-auto pr-1" data-upcoming-list>
+        <div class="bg-white shadow p-3 rounded-xl p-4 flex flex-col" data-medication-card data-medication-id="upcoming-initial" data-medicine-name="Propranolol" data-medicine-color="#FFC9E8">
 
           <div class="flex items-center justify-between m-2">
             <p class="text-mb text-gray-800" data-medication-time>11:00</p>
@@ -28,7 +28,7 @@
             </div>
 
           </div>
-          <div class="flex items-center justify-between bg-pink-300 text-black px-4 py-1 rounded-full w-full">
+          <div class="flex items-center justify-between text-black px-4 py-1 rounded-full w-full" data-medication-pill style="background-color:#FFC9E8;">
             <p class="font-semibold" data-medication-name>Propranolol</p>
             <span class="text-sm font-bold ml-auto" data-medication-amount>x 1</span>
           </div>
@@ -102,8 +102,9 @@
       </div>
       <form id="editMedicationForm" class="mt-6 space-y-5">
         <div>
-          <label for="editMedicineName" class="text-sm font-medium text-gray-600 block mb-2">Medicine</label>
-          <input id="editMedicineName" name="medicine" type="text" class="w-full rounded-2xl border border-gray-200 bg-gray-100 px-4 py-3 text-gray-800 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200" placeholder="Propranolol">
+          <label for="editMedicineSelect" class="text-sm font-medium text-gray-600 block mb-2">Medicine</label>
+          <select id="editMedicineSelect" name="medicineId" class="w-full rounded-2xl border border-gray-200 bg-gray-100 px-4 py-3 text-gray-800 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-200">
+          </select>
         </div>
         <div>
           <label class="text-sm font-medium text-gray-600 block mb-2">Amount</label>
@@ -136,7 +137,7 @@
       if (!upcomingList || !editModal || !removeModal || !addMedicineModal || !optionsModal || !medicineList) return;
 
       const editForm = document.getElementById("editMedicationForm");
-      const editNameInput = document.getElementById("editMedicineName");
+      const editMedicineSelect = document.getElementById("editMedicineSelect");
       const editTimeInput = document.getElementById("editMedicineTime");
       const editAmountDisplay = document.getElementById("editMedicineAmount");
       const cancelEditButton = editModal.querySelector("[data-action='cancel-edit']");
@@ -169,6 +170,15 @@
       const isDefined = (value) => value !== undefined && value !== null;
       const getTextContent = (element) =>
         element && typeof element.textContent === "string" ? element.textContent.trim() : "";
+      const DEFAULT_MEDICINE_COLOR = "#FFC9E8";
+
+      const applyMedicineColor = (card, color) => {
+        if (!card) return;
+        const pill = card.querySelector("[data-medication-pill]");
+        if (!pill) return;
+        const resolved = color && typeof color === "string" && color.trim() ? color.trim() : DEFAULT_MEDICINE_COLOR;
+        pill.style.backgroundColor = resolved;
+      };
 
       const generateId = (() => {
         let counter = 0;
@@ -212,7 +222,44 @@
       let editingMedicineId = null;
       let editingOriginalName = "";
 
-      const renderMedicines = () => {
+      const renderMedicineOptions = (selectedId) => {
+        if (!editMedicineSelect) return;
+        const targetValue = selectedId || editMedicineSelect.value || "";
+        const isFocused = document.activeElement === editMedicineSelect;
+        editMedicineSelect.innerHTML = "";
+
+        if (!medicines.length) {
+          const option = document.createElement("option");
+          option.value = "";
+          option.textContent = "No medicines available";
+          editMedicineSelect.appendChild(option);
+          editMedicineSelect.disabled = true;
+          return;
+        }
+
+        editMedicineSelect.disabled = false;
+        let hasMatch = false;
+        medicines.forEach((medicine) => {
+          const option = document.createElement("option");
+          option.value = medicine.id;
+          option.textContent = medicine.name;
+          if (!hasMatch && targetValue && medicine.id === targetValue) {
+            option.selected = true;
+            hasMatch = true;
+          }
+          editMedicineSelect.appendChild(option);
+        });
+
+        if (!hasMatch) {
+          editMedicineSelect.selectedIndex = 0;
+        }
+
+        if (isFocused && typeof editMedicineSelect.focus === "function") {
+          editMedicineSelect.focus({ preventScroll: true });
+        }
+      };
+
+      const renderMedicines = (selectedId) => {
         medicineList.innerHTML = "";
         medicines.forEach((medicine) => {
           const button = document.createElement("button");
@@ -220,31 +267,56 @@
           button.className = "font-medium rounded-2xl px-5 py-3 text-sm text-gray-800 shadow-sm transition hover:shadow";
           button.dataset.medicineId = medicine.id;
           button.textContent = medicine.name;
-          button.style.backgroundColor = medicine.color;
+          button.style.backgroundColor = medicine.color || DEFAULT_MEDICINE_COLOR;
           medicineList.appendChild(button);
         });
+        const targetSelected = selectedId || (editMedicineSelect ? editMedicineSelect.value : "");
+        renderMedicineOptions(targetSelected);
       };
 
-      const syncUpcomingCardNames = (oldName, newName) => {
-        if (!oldName || oldName === newName) return;
+      const syncUpcomingCardNames = (oldName, newName, updatedMedicine) => {
         const cards = upcomingList.querySelectorAll("[data-medication-card]");
         cards.forEach((card) => {
           const nameEl = card.querySelector("[data-medication-name]");
-          if (nameEl && nameEl.textContent.trim() === oldName) {
+          const matchesName = oldName && nameEl && nameEl.textContent.trim() === oldName;
+          const matchesId =
+            updatedMedicine && card.dataset.medicineId && card.dataset.medicineId === updatedMedicine.id;
+          if (!matchesName && !matchesId) return;
+
+          if (nameEl && newName) {
             nameEl.textContent = newName;
+            card.setAttribute("data-medicine-name", newName);
+          }
+
+          const targetMedicine =
+            updatedMedicine ||
+            medicines.find((item) => item.name === (newName || oldName)) ||
+            null;
+
+          if (targetMedicine) {
+            card.dataset.medicineId = targetMedicine.id;
+            card.dataset.medicineName = targetMedicine.name;
+            card.dataset.medicineColor = targetMedicine.color || DEFAULT_MEDICINE_COLOR;
+            card.setAttribute("data-medicine-name", targetMedicine.name);
+            applyMedicineColor(card, targetMedicine.color);
           }
         });
       };
 
       const openEditModal = (card, overrides) => {
         if (!card) return;
+        if (medicines.length === 0) {
+          openMedicineForm("create");
+          return;
+        }
+
         const safeOverrides = overrides || {};
         activeCard = card;
         const nameEl = card.querySelector("[data-medication-name]");
         const timeEl = card.querySelector("[data-medication-time]");
         const amountEl = card.querySelector("[data-medication-amount]");
 
-        const baseName = isDefined(safeOverrides.name) ? String(safeOverrides.name) : getTextContent(nameEl);
+        const fallbackName = isDefined(safeOverrides.name) ? String(safeOverrides.name) : getTextContent(nameEl);
         const baseTime = isDefined(safeOverrides.time) ? String(safeOverrides.time) : getTextContent(timeEl);
 
         let amountValue;
@@ -259,13 +331,45 @@
           amountValue = 1;
         }
 
-        editNameInput.value = baseName;
+        let selectedMedicineId = isDefined(safeOverrides.medicineId) ? String(safeOverrides.medicineId) : "";
+        if (!selectedMedicineId && card.dataset.medicineId) {
+          selectedMedicineId = card.dataset.medicineId;
+        }
+
+        let currentMedicine = null;
+        if (selectedMedicineId) {
+          currentMedicine = medicines.find((item) => item.id === selectedMedicineId);
+        }
+        if (!currentMedicine && fallbackName) {
+          currentMedicine = medicines.find((item) => item.name === fallbackName);
+          if (currentMedicine) {
+            selectedMedicineId = currentMedicine.id;
+          }
+        }
+        if (!currentMedicine) {
+          currentMedicine = medicines[0];
+          selectedMedicineId = currentMedicine ? currentMedicine.id : "";
+        }
+
+        renderMedicineOptions(selectedMedicineId);
+
         editAmountDisplay.textContent = amountValue;
         editTimeInput.value = toTimeValue(baseTime);
 
         showOverlay(editModal);
-        if (editNameInput && typeof editNameInput.focus === "function") {
-          editNameInput.focus({ preventScroll: true });
+
+        if (currentMedicine) {
+          card.dataset.medicineId = currentMedicine.id;
+          card.dataset.medicineName = currentMedicine.name;
+          card.dataset.medicineColor = currentMedicine.color || DEFAULT_MEDICINE_COLOR;
+          applyMedicineColor(card, currentMedicine.color);
+        }
+
+        if (editMedicineSelect) {
+          editMedicineSelect.value = selectedMedicineId || "";
+          if (typeof editMedicineSelect.focus === "function") {
+            editMedicineSelect.focus({ preventScroll: true });
+          }
         }
       };
 
@@ -345,7 +449,7 @@
                 </button>
               </div>
             </div>
-            <div class="flex items-center justify-between bg-pink-300 text-black px-4 py-1 rounded-full w-full">
+            <div class="flex items-center justify-between text-black px-4 py-1 rounded-full w-full" data-medication-pill>
               <p class="font-semibold" data-medication-name></p>
               <span class="text-sm font-bold ml-auto" data-medication-amount>x 1</span>
             </div>
@@ -353,6 +457,14 @@
         }
 
         card.dataset.medicationId = generateId("upcoming");
+        if (medicine) {
+          card.dataset.medicineId = medicine.id;
+          card.dataset.medicineName = medicine.name;
+          card.setAttribute("data-medicine-name", medicine.name);
+        }
+        const medicineColor = medicine && medicine.color ? medicine.color : DEFAULT_MEDICINE_COLOR;
+        card.dataset.medicineColor = medicineColor;
+        applyMedicineColor(card, medicineColor);
 
         const timeEl = card.querySelector("[data-medication-time]");
         const nameEl = card.querySelector("[data-medication-name]");
@@ -363,8 +475,36 @@
         if (amountEl) amountEl.textContent = "x 1";
 
         upcomingList.appendChild(card);
+        ensureCardMedicineBinding(card);
         attachCardInteractions(card);
         return card;
+      };
+
+      const ensureCardMedicineBinding = (card) => {
+        if (!card) return;
+        let matchedMedicine = null;
+        if (card.dataset.medicineId) {
+          matchedMedicine = medicines.find((item) => item.id === card.dataset.medicineId);
+        }
+        if (!matchedMedicine) {
+          const presetName = card.getAttribute("data-medicine-name");
+          const displayName = presetName || getTextContent(card.querySelector("[data-medication-name]"));
+          if (displayName) {
+            matchedMedicine = medicines.find((item) => item.name === displayName) || null;
+          }
+        }
+        if (matchedMedicine) {
+          card.dataset.medicineId = matchedMedicine.id;
+          card.dataset.medicineName = matchedMedicine.name;
+          card.dataset.medicineColor = matchedMedicine.color || DEFAULT_MEDICINE_COLOR;
+          card.setAttribute("data-medicine-name", matchedMedicine.name);
+          applyMedicineColor(card, matchedMedicine.color);
+          return;
+        }
+        const existingColor = card.dataset.medicineColor || card.getAttribute("data-medicine-color");
+        const fallbackColor = existingColor && existingColor.trim() ? existingColor : DEFAULT_MEDICINE_COLOR;
+        card.dataset.medicineColor = fallbackColor;
+        applyMedicineColor(card, fallbackColor);
       };
 
       function attachCardInteractions(card) {
@@ -389,9 +529,10 @@
         }
       }
 
-      upcomingList.querySelectorAll("[data-medication-card]").forEach((card) =>
-        attachCardInteractions(card)
-      );
+      upcomingList.querySelectorAll("[data-medication-card]").forEach((card) => {
+        ensureCardMedicineBinding(card);
+        attachCardInteractions(card);
+      });
 
       if (decrementButton) {
         decrementButton.addEventListener("click", () => {
@@ -414,11 +555,25 @@
           event.preventDefault();
           if (!activeCard) return;
 
-          const name = editNameInput.value.trim() || "Unnamed";
           const timeValue = editTimeInput.value;
           const time = formatTimeDisplay(timeValue);
           const amount = parseInt(editAmountDisplay.textContent, 10) || 1;
 
+          const selectedId = editMedicineSelect ? editMedicineSelect.value : "";
+          let selectedMedicine = selectedId ? medicines.find((item) => item.id === selectedId) : null;
+          if (!selectedMedicine && medicines.length > 0) {
+            selectedMedicine = medicines[0];
+            if (editMedicineSelect) {
+              editMedicineSelect.value = selectedMedicine.id;
+            }
+          }
+          if (!selectedMedicine) {
+            closeEditModal();
+            openMedicineForm("create");
+            return;
+          }
+
+          const name = selectedMedicine.name;
           const nameEl = activeCard.querySelector("[data-medication-name]");
           const timeEl = activeCard.querySelector("[data-medication-time]");
           const amountEl = activeCard.querySelector("[data-medication-amount]");
@@ -432,6 +587,12 @@
             }
           }
           if (amountEl) amountEl.textContent = `x ${amount}`;
+
+          activeCard.dataset.medicineId = selectedMedicine.id;
+          activeCard.dataset.medicineName = selectedMedicine.name;
+          activeCard.dataset.medicineColor = selectedMedicine.color || DEFAULT_MEDICINE_COLOR;
+          activeCard.setAttribute("data-medicine-name", selectedMedicine.name);
+          applyMedicineColor(activeCard, selectedMedicine.color);
 
           closeEditModal();
         });
@@ -516,26 +677,31 @@
               const previousName = medicine.name;
               medicine.name = name;
               medicine.color = color;
-              renderMedicines();
-              syncUpcomingCardNames(previousName, name);
+              renderMedicines(medicine.id);
+              syncUpcomingCardNames(previousName, name, medicine);
             }
           } else {
-            medicines.push({ id: generateId("med"), name, color });
-            renderMedicines();
+            const newMedicine = { id: generateId("med"), name, color };
+            medicines.push(newMedicine);
+            renderMedicines(newMedicine.id);
           }
 
           closeMedicineForm();
         });
       }
 
+      const handleRecordTime = (medicine) => {
+        const card = createUpcomingCard(medicine);
+        closeMedicineOptions();
+        openEditModal(card, { medicineId: medicine.id, name: medicine.name, time: "", amount: 1 });
+      };
+
       if (optionsRecordButton) {
         optionsRecordButton.addEventListener("click", () => {
           if (!selectedMedicineId) return;
           const medicine = medicines.find((item) => item.id === selectedMedicineId);
           if (!medicine) return;
-          const card = createUpcomingCard(medicine);
-          closeMedicineOptions();
-          openEditModal(card, { name: medicine.name, time: "", amount: 1 });
+          handleRecordTime(medicine);
         });
       }
 
@@ -589,6 +755,15 @@
           closeMedicineOptions();
           openMedicineForm("create");
         }
+      });
+
+      document.addEventListener("open-record-medicine", () => {
+        if (!medicines.length) {
+          openMedicineForm("create");
+          return;
+        }
+        const medicine = medicines[0];
+        handleRecordTime(medicine);
       });
 
       renderMedicines();

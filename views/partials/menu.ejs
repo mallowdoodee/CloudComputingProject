@@ -84,12 +84,24 @@
     });
 
     // กันคลิกบนปุ่มย่อยแล้วเมนูปิดก่อน
-    [miniMed, miniSym].forEach(btn => {
-      btn.addEventListener('click', (e) => {
+    const dispatchActionEvent = (type) => {
+      const event = new CustomEvent(type, { bubbles: true, cancelable: true });
+      document.dispatchEvent(event);
+    };
+
+    if (miniMed) {
+      miniMed.addEventListener('click', (e) => {
         e.stopPropagation();
-        // TODO: ใส่ action จริงที่นี่
-        alert(btn === miniMed ? 'Add Medicine' : 'Add Symptom');
+        dispatchActionEvent('open-record-medicine');
         setOpen(false);
       });
-    });
+    }
+
+    if (miniSym) {
+      miniSym.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dispatchActionEvent('open-record-symptom');
+        setOpen(false);
+      });
+    }
   </script>
