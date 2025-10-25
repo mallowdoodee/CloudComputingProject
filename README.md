@@ -56,13 +56,14 @@ django-admin startproject myblogs
 ```
 
 โครงสร้างที่ได้:
-
+```
 myblogs/
  ├─ myblogs/
  │   ├─ settings.py
  │   ├─ urls.py
  │   └─ ...
  └─ manage.py
+```
 
 ## 7. สร้างแอป (App) ชื่อ blogs
 ```
