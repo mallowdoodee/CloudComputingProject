@@ -132,6 +132,7 @@ python manage.py sqlmigrate blogs 0001
 ```
 
 ## 12. โครงสร้างโปรเจกต์ตัวอย่าง
+```
 myblogs/
 ├─ myblogs/
 │  ├─ __init__.py
@@ -144,3 +145,4 @@ myblogs/
 │  ├─ views.py
 │  └─ admin.py
 └─ manage.py
+```
