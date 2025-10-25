@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}อาการทั้งหมด{% endblock %}
+{% block date_nav %}{% endblock %}
+
+{% block content %}
+<main class="max-w-4xl mx-auto p-6 space-y-4">
+
+  <!-- หัวข้อ + จำนวนรายการ -->
+  <header class="flex items-center justify-between">
+    <h1 class="text-xl font-semibold text-gray-900">อาการทั้งหมด</h1>
+    {% if page_obj %}
+      <span class="text-sm text-gray-500">ทั้งหมด {{ page_obj.paginator.count }} รายการ</span>
+    {% endif %}
+  </header>
+
+  <!-- กล่องรายการ -->
+  <section class="bg-white rounded-2xl border border-gray-200 shadow-sm">
+    {% if symptoms %}
+      <ul class="divide-y divide-gray-200">
+        {% for s in symptoms %}
+          <li class="p-4 hover:bg-gray-50 transition">
+            <div class="flex items-start justify-between gap-4">
+              <div class="min-w-0">
+                <p class="font-medium text-gray-900 truncate">{{ s.name }}</p>
+                <p class="text-xs text-gray-500">{{ s.created_at|date:"d/m/Y H:i" }}</p>
+                {% if s.note %}
+                  <p class="text-sm text-gray-600 mt-1 break-words">{{ s.note }}</p>
+                {% endif %}
+              </div>
+              <a href="{% url 'symptom-edit' s.pk %}"
+                 class="shrink-0 inline-flex items-center px-2.5 py-1.5 rounded-lg border border-gray-300
+                        text-sm text-gray-700 bg-white hover:bg-gray-100 transition">
+                แก้ไข
+              </a>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <div class="p-8 text-center">
+        <p class="text-gray-500">ยังไม่มีการบันทึกอาการ</p>
+      </div>
+    {% endif %}
+  </section>
+
+  <!-- Pagination (แสดงเมื่อมีมากกว่า 1 หน้า) -->
+  {% if page_obj and page_obj.paginator.num_pages > 1 %}
+    <nav class="flex items-center justify-center gap-2">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}"
+           class="px-3 py-1.5 text-sm rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-100 transition">
+          ก่อนหน้า
+        </a>
+      {% endif %}
+
+      <!-- เลขหน้าแบบย่อ (window) -->
+      {% for num in page_obj.paginator.page_range %}
+        {% if num == 1 or num == page_obj.paginator.num_pages or num == page_obj.number or num == page_obj.number|add:-1 or num == page_obj.number|add:1 %}
+          {% if num == page_obj.number %}
+            <span class="px-3 py-1.5 text-sm rounded-lg border border-gray-300 bg-gray-100 text-gray-800">{{ num }}</span>
+          {% else %}
+            <a href="?page={{ num }}"
+               class="px-3 py-1.5 text-sm rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-100 transition">
+              {{ num }}
+            </a>
+          {% endif %}
+        {% elif num == 2 and page_obj.number > 3 %}
+          <span class="px-2 text-gray-400">…</span>
+        {% elif num == page_obj.paginator.num_pages|add:-1 and page_obj.number < page_obj.paginator.num_pages|add:-2 %}
+          <span class="px-2 text-gray-400">…</span>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}"
+           class="px-3 py-1.5 text-sm rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-100 transition">
+          ถัดไป
+        </a>
+      {% endif %}
+    </nav>
+  {% endif %}
+
+</main>
+{% endblock %}

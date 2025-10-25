@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>Health — Appointments</title>
+  <!-- Tailwind (CDN) สำหรับตัวอย่าง; โปรดเปลี่ยนมาใช้ build ของโปรเจ็กต์จริงถ้ามี -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+  <!-- Content -->
+  <main class="flex-1 overflow-y-auto p-4 space-y-6 max-w-3xl mx-auto">
+
+    <!-- Doctor Appointments -->
+    <section>
+      <h3 class="text-lg font-semibold">Doctor Appointments</h3>
+
+      {% if appointments_today and appointments_today|length > 0 %}
+        <div class="mt-2 space-y-2">
+          {% for a in appointments_today %}
+            <div class="bg-white shadow p-4 rounded-xl flex items-center justify-between">
+              <div class="min-w-0">
+                <p class="text-sm text-gray-500">Today • {{ a.at_time|time:"H:i" }}</p>
+                <p class="text-base font-semibold text-gray-800 truncate">
+                  Dr. {{ a.doctor.name }} — {{ a.doctor.specialization }}
+                </p>
+                <p class="text-sm text-gray-600 truncate">
+                  Patient: {{ a.patient.name }}
+                </p>
+                {% if a.details %}
+                  <p class="text-sm text-gray-500 mt-1 line-clamp-2">{{ a.details }}</p>
+                {% endif %}
+              </div>
+              <!-- ปุ่มจัดการ (ถ้ามีเส้นทางแก้ไข/ลบ) -->
+              <div class="flex gap-2 shrink-0">
+                <a href="{% url 'appointment-edit' a.pk %}" class="px-3 py-1 rounded-lg border text-sm hover:bg-gray-100">Edit</a>
+                <a href="{% url 'appointment-delete' a.pk %}" class="px-3 py-1 rounded-lg border text-sm text-red-600 hover:bg-red-50"
+                   onclick="return confirm('ยืนยันลบนัดหมายนี้?')">Delete</a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="text-sm text-gray-500">You have no appointment today</p>
+      {% endif %}
+    </section>
+
+    <!-- Medications -->
+    <section>
+      <h3 class="text-lg font-semibold mb-2">Medications</h3>
+      <h6 class="text-sm font-semibold mb-2 pl-2 text-gray-600">Upcoming</h6>
+
+      {% comment %}
+        ปัจจุบันยังไม่มีโมเดล Medications ในโปรเจ็กต์
+        ถ้าในอนาคตเพิ่ม model เช่น Medication(name, time, dose) แล้วส่ง context "medications_upcoming"
+        ก็สามารถวนลูปแสดงได้ตามตัวอย่างด้านล่าง:
+
+        {% if medications_upcoming %}
+          <div class="space-y-2">
+            {% for m in medications_upcoming %}
+              <div class="bg-white shadow rounded-xl p-4 flex flex-col gap-2">
+                <div class="flex items-center justify-between">
+                  <p class="text-sm text-gray-800">{{ m.time|time:"H:i" }}</p>
+                </div>
+                <div class="flex items-center justify-between bg-pink-300 text-black px-4 py-1 rounded-full w-full">
+                  <p class="font-semibold">{{ m.name }}</p>
+                  <span class="text-sm font-bold ml-auto">x {{ m.dose }}</span>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="text-sm text-gray-500">No upcoming medications</p>
+        {% endif %}
+      {% endcomment %}
+
+      <!-- แสดงข้อความ default เพราะยังไม่มีโมเดล -->
+      <div class="bg-white shadow rounded-xl p-4">
+        <p class="text-sm text-gray-500">No upcoming medications</p>
+      </div>
+    </section>
+
+    <!-- Log -->
+    <section>
+      <h3 class="text-lg font-semibold mb-2">Log</h3>
+      <h6 class="text-sm font-semibold mb-2 pl-2 text-gray-600">SYMPTOMS</h6>
+
+      {% comment %}
+        ปัจจุบันยังไม่มีโมเดล Symptoms
+        ถ้าเพิ่ม model เช่น SymptomLog(time, note, patient) แล้วส่ง context "symptom_logs"
+        ก็สามารถวนลูปแสดงได้ตามตัวอย่าง:
+
+        {% if symptom_logs %}
+          <div class="space-y-2">
+            {% for s in symptom_logs %}
+              <div class="bg-white rounded-xl shadow p-3">
+                <p class="text-sm font-semibold text-gray-800">{{ s.time|time:"H:i" }}</p>
+                <p class="text-sm text-gray-600">{{ s.note }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="text-sm text-gray-500">No symptom logs</p>
+        {% endif %}
+      {% endcomment %}
+
+      <!-- แสดงข้อความ default เพราะยังไม่มีโมเดล -->
+      <div class="bg-white rounded-xl shadow p-3">
+        <p class="text-sm text-gray-500">No symptom logs</p>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Health — Appointments{% endblock %}
+
+{% block content %}
+<main class="flex-1 overflow-y-auto p-4 space-y-6 max-w-3xl mx-auto">
+
+  <!-- Doctor Appointments -->
+  <section>
+    <h3 class="text-lg font-semibold">Doctor Appointments</h3>
+
+    {% if appointments_today and appointments_today|length > 0 %}
+      <div class="mt-2 space-y-2">
+        {% for a in appointments_today %}
+          <div class="bg-white shadow p-4 rounded-xl flex items-center justify-between">
+            <div class="min-w-0">
+              <p class="text-sm text-gray-500">Today • {{ a.at_time|time:"H:i" }}</p>
+              <p class="text-base font-semibold text-gray-800 truncate">
+                Dr. {{ a.doctor_name }} — {{ a.clinic.name }}
+              </p>
+              {% if a.details %}
+                <p class="text-sm text-gray-500 mt-1 line-clamp-2">{{ a.details }}</p>
+              {% endif %}
+            </div>
+            <!-- ปุ่มจัดการ -->
+            <div class="flex gap-2 shrink-0">
+              <a href="{% url 'appointment-edit' a.pk %}"
+                 class="px-3 py-1 rounded-lg border text-sm hover:bg-gray-100">Edit</a>
+              <a href="{% url 'appointment-delete' a.pk %}"
+                 class="px-3 py-1 rounded-lg border text-sm text-red-600 hover:bg-red-50"
+                 onclick="return confirm('ยืนยันลบนัดหมายนี้?')">Delete</a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-sm text-gray-500">You have no appointment today</p>
+    {% endif %}
+  </section>
+
+  <!-- Medications -->
+  <section>
+    <h3 class="text-lg font-semibold mb-2">Medications</h3>
+    <h6 class="text-sm font-semibold mb-2 pl-2 text-gray-600">Upcoming</h6>
+
+    {% comment %}
+      ถ้ามี model Medication และส่ง "medications_upcoming" มา
+      ให้เอาบล็อกด้านล่างออกแล้วใช้ลูปตามคอมเมนต์ได้เลย
+    {% endcomment %}
+
+    <div class="bg-white shadow rounded-xl p-4">
+      <p class="text-sm text-gray-500">No upcoming medications</p>
+    </div>
+  </section>
+
+  <!-- Log -->
+  <section>
+    <h3 class="text-lg font-semibold mb-2">Log</h3>
+    <h6 class="text-sm font-semibold mb-2 pl-2 text-gray-600">SYMPTOMS</h6>
+
+    {% comment %}
+      ถ้ามี model SymptomLog และส่ง "symptom_logs" มา
+      ให้เอาบล็อกด้านล่างออกแล้วใช้ลูปตามคอมเมนต์ได้เลย
+    {% endcomment %}
+
+    <div class="bg-white rounded-xl shadow p-3">
+      <p class="text-sm text-gray-500">No symptom logs</p>
+    </div>
+  </section>
+
+</main>
+{% endblock %}

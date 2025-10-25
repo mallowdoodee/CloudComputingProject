@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block date_nav %}{% endblock %}
+{% block content %}
+<div class="max-w-xl mx-auto bg-white rounded-2xl shadow p-6">
+  <h2 class="text-xl font-bold text-[#981E1E] mb-4">{{ title }}</h2>
+
+  <form method="post" class="space-y-3">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <div class="flex items-center gap-3 mt-4">
+      <button type="submit" class="bg-[#981E1E] text-white px-4 py-2 rounded hover:bg-[#bb2d2d]">
+        บันทึก
+      </button>
+
+      {% if drug %}
+        <button type="submit" name="delete"
+                onclick="return confirm('ยืนยันการลบยานี้หรือไม่?')"
+                class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+          ลบยา
+        </button>
+      {% endif %}
+
+      <a href="{% url 'med-dashboard' %}" class="text-gray-600 hover:underline">กลับ</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

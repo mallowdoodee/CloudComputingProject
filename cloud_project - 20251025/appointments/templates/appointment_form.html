@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ title|default:"Appointment" }}{% endblock %}
+{% block date_nav %}{% endblock %}
+
+{% block content %}
+<main class="max-w-2xl mx-auto p-6 space-y-4">
+  <header class="flex items-center justify-between">
+    <h1 class="text-xl font-semibold text-gray-900">
+      {{ title|default:"Appointment" }}
+    </h1>
+  </header>
+
+  <section class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+    <form method="post" class="space-y-5">
+      {% csrf_token %}
+
+      {# ซ่อนฟิลด์ patient ถ้ามี (กำหนดค่าใน view) #}
+      {% if form.patient %} {{ form.patient.as_hidden }} {% endif %}
+
+      <!-- Title -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">หัวข้อการนัดหมาย</label>
+        {{ form.title }}
+        {% if form.title.errors %}
+          <p class="text-sm text-red-600 mt-1">{{ form.title.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Clinic -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">คลินิก / โรงพยาบาล</label>
+        {{ form.clinic }}
+        {% if form.clinic.errors %}
+          <p class="text-sm text-red-600 mt-1">{{ form.clinic.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Doctor info -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">ชื่อแพทย์</label>
+          {{ form.doctor_name }}
+          {% if form.doctor_name.errors %}
+            <p class="text-sm text-red-600 mt-1">{{ form.doctor_name.errors.0 }}</p>
+          {% endif %}
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">เบอร์โทรศัพท์แพทย์ (ถ้ามี)</label>
+          {{ form.doctor_phone }}
+          {% if form.doctor_phone.errors %}
+            <p class="text-sm text-red-600 mt-1">{{ form.doctor_phone.errors.0 }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Doctor email -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">อีเมลแพทย์ (ถ้ามี)</label>
+        {{ form.doctor_email }}
+        {% if form.doctor_email.errors %}
+          <p class="text-sm text-red-600 mt-1">{{ form.doctor_email.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Condition & Address -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">อาการ / เหตุผลที่ไปพบแพทย์</label>
+          {{ form.condition }}
+          {% if form.condition.errors %}
+            <p class="text-sm text-red-600 mt-1">{{ form.condition.errors.0 }}</p>
+          {% endif %}
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">สถานที่นัดหมาย</label>
+          {{ form.address }}
+          {% if form.address.errors %}
+            <p class="text-sm text-red-600 mt-1">{{ form.address.errors.0 }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Date / Time -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">วันที่</label>
+          {{ form.date }}
+          {% if form.date.errors %}
+            <p class="text-sm text-red-600 mt-1">{{ form.date.errors.0 }}</p>
+          {% endif %}
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">เวลา</label>
+          {{ form.at_time }}
+          {% if form.at_time.errors %}
+            <p class="text-sm text-red-600 mt-1">{{ form.at_time.errors.0 }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Details -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">รายละเอียดเพิ่มเติม</label>
+        {{ form.details }}
+        {% if form.details.errors %}
+          <p class="text-sm text-red-600 mt-1">{{ form.details.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      {% if form.non_field_errors %}
+        <div class="rounded-lg bg-red-50 text-red-700 p-3 text-sm">
+          {{ form.non_field_errors }}
+        </div>
+      {% endif %}
+
+      <!-- Submit -->
+      <div class="flex items-center gap-3 pt-2">
+        <button type="submit"
+                class="inline-flex items-center px-4 py-2 rounded-lg border border-gray-300
+                       bg-white text-gray-800 hover:bg-gray-100 transition">
+          บันทึก
+        </button>
+        <a href="{% url 'appointment-list' %}"
+           class="text-gray-600 hover:underline">ยกเลิก</a>
+      </div>
+    </form>
+  </section>
+</main>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}จัดการยาและแผนการกินยา{% endblock %}
+{% block date_nav %}{% endblock %}
+{% block content %}
+
+<div class="max-w-6xl mx-auto space-y-10">
+<!-- =================== แผนการกินยา =================== -->
+  <section class="bg-white rounded-2xl shadow p-6">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-2xl font-bold text-[#981E1E]">🕒 แผนการกินยา</h2>
+      <a href="{% url 'intake-add' %}" class="bg-[#981E1E] text-white px-4 py-2 rounded hover:bg-[#bb2d2d]">
+        + เพิ่มแผน
+      </a>
+    </div>
+
+    {% if intakes %}
+      <table class="w-full text-sm border">
+        <thead class="bg-gray-100 text-gray-600">
+          <tr>
+            <th class="p-2 border">ยา</th>
+            <th class="p-2 border">จำนวน</th>
+            <th class="p-2 border">เวลา</th>
+            <th class="p-2 border">จัดการ</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for m in intakes %}
+          <tr class="border-b hover:bg-gray-50">
+            <td class="p-2">{{ m.drug.name }}</td>
+            <td class="p-2">{{ m.dose }}</td>
+            <td class="p-2">{{ m.time }}</td>
+            <td class="p-2 text-center">
+              <a href="{% url 'intake-edit' m.pk %}" class="text-blue-600 hover:underline mr-2">แก้ไข</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="text-gray-500 text-center">ยังไม่มีแผนการกินยา</p>
+    {% endif %}
+  </section>
+  <!-- =================== ยา =================== -->
+  <section class="bg-white rounded-2xl shadow p-6">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-2xl font-bold text-[#981E1E]">💊 รายการยา</h2>
+      <a href="{% url 'drug-add' %}" class="bg-[#981E1E] text-white px-4 py-2 rounded hover:bg-[#bb2d2d]">
+        + เพิ่มยา
+      </a>
+    </div>
+    {% if drugs_with_color %}
+      <table class="w-full text-sm border">
+        <thead class="bg-gray-100 text-gray-600">
+          <tr>
+            <th class="p-2 border">ชื่อยา</th>
+            <th class="p-2 border">ชื่อสามัญ</th>
+            <th class="p-2 border">ขนาด</th>
+            <th class="p-2 border">รูปแบบ</th>
+            <th class="p-2 border">จัดการ</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for d, color in drugs_with_color %}
+          <tr class="border-b hover:bg-gray-50">
+            <td class="p-2">
+              <span class="px-2 py-1 rounded-lg text-sm font-medium {{ color }}">
+                {{ d.name }}
+              </span>
+            </td>
+            <td class="p-2">{{ d.generic_name }}</td>
+            <td class="p-2">{{ d.strength }}</td>
+            <td class="p-2">{{ d.get_form_display }}</td>
+            <td class="p-2 text-center">
+              <a href="{% url 'drug-edit' d.pk %}" class="text-blue-600 hover:underline mr-2">แก้ไข</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="text-gray-500 text-center">ยังไม่มียาในระบบ</p>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

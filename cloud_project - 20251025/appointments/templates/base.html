@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Health App{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=stylus_note" />
+  {% block head %}{% endblock %}
+</head>
+
+<body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+
+  <!-- ========== Navigation Bar ========== -->
+  {% include "nav.html" %}
+
+  <!-- ========== Date Bar ========== -->
+  {% block date_nav %}
+  <div class="flex items-center justify-center bg-white py-3 border-b shadow-sm sticky top-0 z-10">
+    <h2 class="text-lg md:text-xl font-semibold text-[#BB271A]">
+      {% now "วัน D d M Y เวลา H:i น." %}
+    </h2>
+  </div>
+  {% endblock %}
+
+  <!-- ========== Message Alerts ========== -->
+  {% if messages %}
+  <div class="max-w-3xl w-full mx-auto px-5 mt-4 space-y-2">
+    {% for message in messages %}
+      <div class="p-3 rounded-lg text-sm font-medium shadow-sm border
+                  {% if message.tags == 'success' %}bg-green-50 border-green-200 text-green-800
+                  {% elif message.tags == 'warning' %}bg-amber-50 border-amber-200 text-amber-800
+                  {% elif message.tags == 'error' %}bg-red-50 border-red-200 text-red-800
+                  {% else %}bg-gray-50 border-gray-200 text-gray-800{% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- ========== Main Content ========== -->
+  <main class="flex-1 w-full max-w-6xl mx-auto px-5 py-8">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ========== Floating Menu / Bottom Navigation ========== -->
+  {% include "menu.html" %}
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>
