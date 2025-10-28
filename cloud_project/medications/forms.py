@@ -8,6 +8,9 @@ INPUT_STYLE = (
 )
 TEXTAREA_STYLE = INPUT_STYLE + " resize-none min-h-[120px]"
 CHECKBOX_STYLE = "h-5 w-5 rounded border-gray-300 text-rose-500 focus:ring-rose-300 focus:outline-none"
+STEPPER_INPUT_STYLE = (
+    "w-16 text-center text-lg font-semibold bg-transparent focus:outline-none focus:ring-0"
+)
 
 
 class DrugForm(forms.ModelForm):
@@ -29,19 +32,19 @@ class DrugForm(forms.ModelForm):
             ),
             "strength": forms.TextInput(
                 attrs={
-                    "placeholder": "3",
+                    "placeholder": "500 mg",
                     "class": INPUT_STYLE,
                 }
             ),
             "form": forms.Select(
                 attrs={
-                    "class": INPUT_STYLE,
+                    "class": f"{INPUT_STYLE} custom-select",
                 }
             ),
             "description": forms.Textarea(
                 attrs={
                     "rows": 2,
-                    "placeholder": "4",
+                    "placeholder": "More Detail",
                     "class": TEXTAREA_STYLE,
                 }
             ),
@@ -57,46 +60,29 @@ class MedicationIntakeForm(forms.ModelForm):
         widgets = {
             "drug": forms.Select(
                 attrs={
-                    "class": INPUT_STYLE,
+                    "class": f"{INPUT_STYLE} custom-select",
                 }
             ),
-            "dose": forms.TextInput(
+            "dose": forms.NumberInput(
                 attrs={
-                    "class": INPUT_STYLE,
+                    "min": "1",
+                    "step": "1",
+                    "inputmode": "numeric",
+                    "pattern": "[0-9]*",
+                    "class": f"{STEPPER_INPUT_STYLE} dose-field",
                 }
             ),
-            # "frequency": forms.Select(
-            #     attrs={
-            #         "class": INPUT_STYLE,
-            #     }
-            # ),
-            # "instruction": forms.Select(
-            #     attrs={
-            #         "class": INPUT_STYLE,
-            #     }
-            # ),
-            # "start_date": forms.DateInput(
-            #     attrs={
-            #         "type": "date",
-            #         "class": INPUT_STYLE,
-            #     }
-            # ),
-            # "end_date": forms.DateInput(
-            #     attrs={
-            #         "type": "date",
-            #         "class": INPUT_STYLE,
-            #     }
-            # ),
             "time": forms.TimeInput(
                 attrs={
                     "type": "time",
+                    "placeholder": "20:00",
                     "class": INPUT_STYLE,
                 }
             ),
             "note": forms.Textarea(
                 attrs={
                     "rows": 2,
-                    "placeholder": "5",
+                    "placeholder": "Add any special instructions or reminders",
                     "class": TEXTAREA_STYLE,
                 }
             ),
@@ -106,7 +92,6 @@ class MedicationIntakeForm(forms.ModelForm):
                 }
             ),
         }
-
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)

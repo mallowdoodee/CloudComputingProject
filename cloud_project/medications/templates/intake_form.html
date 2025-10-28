@@ -1,29 +1,197 @@
 {% extends "base.html" %}
 {% block title %}{{ title }}{% endblock %}
 {% block date_nav %}{% endblock %}
+
+{% block head %}
+  {{ block.super }}
+  <style>
+    .custom-select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      padding-right: 3rem;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%23262626' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: calc(100% - 2rem) 50%;
+      background-size: 0.75rem;
+    }
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+  </style>
+{% endblock %}
+
 {% block content %}
-<div class="max-w-xl mx-auto bg-white rounded-2xl shadow p-6">
-  <h2 class="text-xl font-bold text-[#981E1E] mb-4">{{ title }}</h2>
+<div class="max-w-md mx-auto">
+  <div class="rounded-3xl bg-white shadow-xl border border-gray-100 p-8">
+    <div class="flex items-start justify-between mb-8">
+      <h1 class="text-2xl font-semibold text-gray-900">{{ title }}</h1>
+      <a href="{% url 'med-dashboard' %}" class="text-sky-500 font-medium hover:text-sky-600 transition">
+        Cancel
+      </a>
+    </div>
 
-  <form method="post" class="space-y-3">
-    {% csrf_token %}
-    {{ form.as_p }}
+    <form method="post" class="space-y-6">
+      {% csrf_token %}
 
-    <div class="flex items-center gap-3 mt-4">
-      <button type="submit" class="bg-[#981E1E] text-white px-4 py-2 rounded hover:bg-[#bb2d2d]">
-        บันทึก
-      </button>
-
-      {% if intake %}
-        <button type="submit" name="delete"
-                onclick="return confirm('ยืนยันการลบแผนการกินยานี้หรือไม่?')"
-                class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-          ลบแผน
-        </button>
+      {% if form.non_field_errors %}
+        <div class="rounded-2xl bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 space-y-1">
+          {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+          {% endfor %}
+        </div>
       {% endif %}
 
-      <a href="{% url 'med-dashboard' %}" class="text-gray-600 hover:underline">กลับ</a>
-    </div>
-  </form>
+      <div class="space-y-5">
+        <div class="space-y-2">
+          <label for="{{ form.drug.id_for_label }}" class="text-sm font-semibold text-gray-700 uppercase tracking-wide">
+            Medicine
+          </label>
+          {{ form.drug }}
+          {% if form.drug.help_text %}
+            <p class="text-xs text-gray-500">{{ form.drug.help_text }}</p>
+          {% endif %}
+          {% if form.drug.errors %}
+            <div class="text-sm text-red-600 space-y-1">
+              {% for error in form.drug.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="space-y-2">
+          <label for="{{ form.dose.id_for_label }}" class="text-sm font-semibold text-gray-700 uppercase tracking-wide">
+            Amount
+          </label>
+          <div class="dose-stepper flex items-center justify-center gap-6 rounded-2xl bg-gray-100 px-4 py-3">
+            <button type="button" class="stepper-btn h-10 w-10 rounded-full bg-white text-xl font-bold text-gray-500 shadow-sm hover:bg-gray-200 transition" data-step="-1">-</button>
+            {{ form.dose }}
+            <button type="button" class="stepper-btn h-10 w-10 rounded-full bg-white text-xl font-bold text-gray-500 shadow-sm hover:bg-gray-200 transition" data-step="1">+</button>
+          </div>
+          {% if form.dose.help_text %}
+            <p class="text-xs text-gray-500">{{ form.dose.help_text }}</p>
+          {% endif %}
+          {% if form.dose.errors %}
+            <div class="text-sm text-red-600 space-y-1">
+              {% for error in form.dose.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="space-y-2">
+          <label for="{{ form.time.id_for_label }}" class="text-sm font-semibold text-gray-700 uppercase tracking-wide">
+            Time Taken
+          </label>
+          {{ form.time }}
+          {% if form.time.help_text %}
+            <p class="text-xs text-gray-500">{{ form.time.help_text }}</p>
+          {% endif %}
+          {% if form.time.errors %}
+            <div class="text-sm text-red-600 space-y-1">
+              {% for error in form.time.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="space-y-2">
+          <label for="{{ form.note.id_for_label }}" class="text-sm font-semibold text-gray-700 uppercase tracking-wide">
+            Notes
+          </label>
+          {{ form.note }}
+          {% if form.note.help_text %}
+            <p class="text-xs text-gray-500">{{ form.note.help_text }}</p>
+          {% endif %}
+          {% if form.note.errors %}
+            <div class="text-sm text-red-600 space-y-1">
+              {% for error in form.note.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="space-y-2">
+          <label for="{{ form.active.id_for_label }}" class="text-sm font-semibold text-gray-700 uppercase tracking-wide">
+            Active
+          </label>
+          <div class="flex items-center justify-between rounded-2xl bg-gray-50 px-4 py-3">
+            <span class="text-sm text-gray-600">Show in medication plan</span>
+            {{ form.active }}
+          </div>
+          {% if form.active.help_text %}
+            <p class="text-xs text-gray-500">{{ form.active.help_text }}</p>
+          {% endif %}
+          {% if form.active.errors %}
+            <div class="text-sm text-red-600 space-y-1">
+              {% for error in form.active.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="space-y-3 pt-2">
+        <button type="submit" class="w-full rounded-2xl bg-[#d05a6b] text-white font-semibold py-3 shadow-sm hover:bg-[#c24b5d] transition">
+          Save
+        </button>
+
+        {% if intake %}
+          <button type="submit" name="delete" class="w-full rounded-2xl border border-red-200 bg-red-50 text-red-600 font-semibold py-3 hover:bg-red-100 transition" onclick="return confirm('Are you sure you want to delete this medication plan?')">
+            Delete
+          </button>
+        {% endif %}
+      </div>
+    </form>
+  </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+  <script>
+    (function () {
+      const input = document.querySelector('.dose-field');
+      const buttons = document.querySelectorAll('.dose-stepper .stepper-btn');
+      if (!input || !buttons.length) {
+        return;
+      }
+
+      const min = Number(input.min) || 1;
+      if (!input.value) {
+        input.value = min;
+      }
+
+      function clamp(value) {
+        return value < min ? min : value;
+      }
+
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const step = Number(button.dataset.step) || 1;
+          const current = Number(input.value) || min;
+          input.value = clamp(current + step);
+          input.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+      });
+
+      input.addEventListener('blur', () => {
+        if (!input.value) {
+          input.value = min;
+        } else {
+          input.value = clamp(Number(input.value));
+        }
+      });
+    })();
+  </script>
 {% endblock %}
