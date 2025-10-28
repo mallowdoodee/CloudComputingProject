@@ -11,21 +11,23 @@ class MedDashboardView(LoginRequiredMixin, View):
         # แสดงเฉพาะยาของผู้ใช้ที่ล็อกอิน
         drugs = Drug.objects.filter(user=request.user).order_by("name")
         # แสดงเฉพาะแผนกินยาของผู้ใช้ที่ล็อกอิน
-        intakes = MedicationIntake.objects.filter(user=request.user).order_by("-start_date")
+        intakes = list(MedicationIntake.objects.filter(user=request.user).order_by("-start_date"))
 
         palette = [
-            "bg-rose-100 text-rose-800",
-            "bg-amber-100 text-amber-800",
-            "bg-emerald-100 text-emerald-800",
-            "bg-sky-100 text-sky-800",
-            "bg-purple-100 text-purple-800",
+            "bg-rose-100 text-rose-700",
+            "bg-sky-100 text-sky-700",
+            "bg-amber-100 text-amber-700",
+            "bg-emerald-100 text-emerald-700",
+            "bg-purple-100 text-purple-700",
         ]
 
         drugs_with_color = [(d, palette[i % len(palette)]) for i, d in enumerate(drugs)]
+        intakes_with_color = [(m, palette[i % len(palette)]) for i, m in enumerate(intakes)]
 
         return render(request, "dashboard.html", {
             "drugs_with_color": drugs_with_color,
             "intakes": intakes,
+            "intakes_with_color": intakes_with_color,
         })
 
 
