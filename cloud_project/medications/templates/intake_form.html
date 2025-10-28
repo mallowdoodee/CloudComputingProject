@@ -30,7 +30,7 @@
 <div class="max-w-md mx-auto">
   <div class="rounded-3xl bg-white shadow-xl border border-gray-100 p-8">
     <div class="flex items-start justify-between mb-8">
-      <h1 class="text-2xl font-semibold text-gray-900">{{ title }}</h1>
+      <h1 class="text-2xl font-semibold text-gray-900 no-select">{{ title }}</h1>
       <a href="{% url 'med-dashboard' %}" class="text-sky-500 font-medium hover:text-sky-600 transition">
         Cancel
       </a>
@@ -125,7 +125,7 @@
             Active
           </label>
           <div class="flex items-center justify-between rounded-2xl bg-gray-50 px-4 py-3">
-            <span class="text-sm text-gray-600">Show in medication plan</span>
+            <span class="text-sm text-gray-600 no-select">Show in medication plan</span>
             {{ form.active }}
           </div>
           {% if form.active.help_text %}

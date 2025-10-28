@@ -5,6 +5,18 @@
   <title>Health — Appointments</title>
   <!-- Tailwind (CDN) สำหรับตัวอย่าง; โปรดเปลี่ยนมาใช้ build ของโปรเจ็กต์จริงถ้ามี -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    label {
+      user-select: none;
+      -webkit-user-select: none;
+      cursor: pointer;
+    }
+    .no-select {
+      user-select: none;
+      -webkit-user-select: none;
+      cursor: default;
+    }
+  </style>
 </head>
 <body class="bg-gray-50">
   <!-- Content -->
@@ -12,7 +24,7 @@
 
     <!-- Doctor Appointments -->
     <section>
-      <h3 class="text-lg font-semibold">Doctor Appointments</h3>
+      <h3 class="text-lg font-semibold no-select">Doctor Appointments</h3>
 
       {% if appointments_today and appointments_today|length > 0 %}
         <div class="mt-2 space-y-2">
@@ -46,8 +58,8 @@
 
     <!-- Medications -->
     <section>
-      <h3 class="text-lg font-semibold mb-2">Medications</h3>
-      <h6 class="text-sm font-semibold mb-2 pl-2 text-gray-600">Upcoming</h6>
+      <h3 class="text-lg font-semibold mb-2 no-select">Medications</h3>
+      <h6 class="text-sm font-semibold mb-2 pl-2 text-gray-600 no-select">Upcoming</h6>
 
       {% comment %}
         ปัจจุบันยังไม่มีโมเดล Medications ในโปรเจ็กต์
@@ -81,8 +93,8 @@
 
     <!-- Log -->
     <section>
-      <h3 class="text-lg font-semibold mb-2">Log</h3>
-      <h6 class="text-sm font-semibold mb-2 pl-2 text-gray-600">SYMPTOMS</h6>
+      <h3 class="text-lg font-semibold mb-2 no-select">Log</h3>
+      <h6 class="text-sm font-semibold mb-2 pl-2 text-gray-600 no-select">SYMPTOMS</h6>
 
       {% comment %}
         ปัจจุบันยังไม่มีโมเดล Symptoms

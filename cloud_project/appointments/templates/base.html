@@ -11,6 +11,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&display=swap" rel="stylesheet">
   <style>
     html, body { font-family: 'Noto Sans Thai', sans-serif; }
+    label {
+      user-select: none;
+      -webkit-user-select: none;
+      cursor: pointer;
+    }
+    .no-select {
+      user-select: none;
+      -webkit-user-select: none;
+      cursor: default;
+    }
   </style>
   <link rel="icon" type="image/png" href="{% static 'img/HR icon.png' %}">
   <link rel="stylesheet"

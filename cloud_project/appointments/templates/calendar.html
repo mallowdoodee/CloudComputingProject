@@ -1,168 +1,240 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ month_name }} — Appointments{% endblock %}
+{% block title %}{{ month_name }} {{ year }} | Appointments{% endblock %}
+
+{% block head %}
+  {{ block.super }}
+  <style>
+    .cal-cell {
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+      height: clamp(3.2rem, 6vw, 4.6rem);
+    }
+    .cal-cell:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(31, 41, 55, 0.08);
+    }
+    .cal-cell.out-month {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .cal-cell.is-sun {
+      color: #bb271a;
+    }
+    .cal-cell.today {
+      border: 2px solid #bb271a;
+      color: #bb271a;
+      font-weight: 700;
+    }
+    .cal-cell.selected-cell {
+      background: #fdecef;
+      border: 2px solid #bb271a;
+      color: #bb271a;
+      box-shadow: 0 12px 24px rgba(187, 39, 26, 0.18);
+    }
+    .cal-cell .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+      background: #bb271a;
+    }
+    @media (max-width: 1023px) {
+      .cal-cell {
+        height: clamp(3rem, 10vw, 4rem);
+      }
+    }
+  </style>
+{% endblock %}
 
 {% block date_nav %}{% endblock %}
+
 {% block content %}
-<main class="h-full grid lg:grid-cols-2 gap-6 max-w-7xl mx-auto p-6">
+<div class="mx-auto max-w-6xl px-2 sm:px-4">
+  <div class="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
 
-  <!-- ================== LEFT: Calendar ================== -->
-  <section class="flex flex-col bg-white rounded-2xl shadow-md overflow-hidden h-full">
-    <!-- Header -->
-    <header class="flex items-center justify-between px-4 py-3 border-b bg-gray-50">
-      <a href="{% url 'appointment-calendar' prev_year prev_month %}" class="p-1.5 rounded hover:bg-gray-200">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-        </svg>
-      </a>
+    <!-- Calendar -->
+    <section class="rounded-3xl border border-gray-200 bg-[#f8f9fb] p-5 shadow-sm">
+      <header class="flex items-center justify-between">
+        <a href="{% url 'appointment-calendar' prev_year prev_month %}"
+           class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-gray-600 shadow-sm transition hover:-translate-y-0.5 hover:text-[#bb271a]">
+          <img src="{% static 'img/arrow_back.png' %}" alt="Previous month" class="h-5 w-5" />
+        </a>
 
-      <div class="text-center">
-        <div class="text-xl font-semibold">{{ month_name }}</div>
-        <div class="text-xs text-gray-500">{{ year }}</div>
+        <div class="text-center">
+          <p class="text-2xl font-semibold text-gray-900 no-select">{{ month_name }}</p>
+          <p class="text-sm text-gray-500 no-select">{{ year }}</p>
+        </div>
+
+        <a href="{% url 'appointment-calendar' next_year next_month %}"
+           class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-gray-600 shadow-sm transition hover:-translate-y-0.5 hover:text-[#bb271a]">
+          <img src="{% static 'img/play_arrow.png' %}" alt="Next month" class="h-5 w-5" />
+        </a>
+      </header>
+
+      <div class="mt-4 flex justify-end no-select">
+        <a href="{% url 'appointment-calendar' %}"
+           class="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-600 shadow-sm transition hover:bg-[#f1f2f6] hover:text-gray-800">
+          Today
+        </a>
       </div>
 
-      <a href="{% url 'appointment-calendar' next_year next_month %}" class="p-1.5 rounded hover:bg-gray-200">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-        </svg>
-      </a>
-    </header>
+      <div class="mt-4 grid grid-cols-7 gap-2 text-center text-sm font-semibold text-gray-500 no-select">
+        <div class="text-[#bb271a]">Sun</div>
+        <div>Mon</div>
+        <div>Tue</div>
+        <div>Wed</div>
+        <div>Thu</div>
+        <div>Fri</div>
+        <div>Sat</div>
+      </div>
 
-    <!-- Today Button -->
-    <div class="px-4 pt-2 flex justify-end">
-      <a href="{% url 'appointment-calendar' %}"
-         class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-gray-200
-                text-sm text-gray-700 bg-white hover:bg-gray-100 transition">
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"
-                d="M6 3v2M18 3v2M3 8h18M5 7v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7" />
-        </svg>
-        Today
-      </a>
-    </div>
-
-    <!-- Weekday Row -->
-    <div class="grid grid-cols-7 text-center text-xs font-semibold text-red-500 mt-3">
-      <div>Sun</div><div class="text-gray-500">Mon</div><div class="text-gray-500">Tue</div>
-      <div class="text-gray-500">Wed</div><div class="text-gray-500">Thu</div>
-      <div class="text-gray-500">Fri</div><div class="text-gray-500">Sat</div>
-    </div>
-
-    <!-- Calendar Grid -->
-    <div class="flex-1 p-2 grid grid-cols-7 gap-2 [grid-auto-rows:calc((100vh-14rem)/6)]">
-      {% for week in weeks %}
-        {% for d in week %}
-          <button type="button"
-            class="cal-cell relative flex items-center justify-center rounded-xl
-                   transition select-none
-                   {% if not d.in_month %} text-gray-300 {% else %} text-gray-800 {% endif %}
-                   {% if d.has_appt %} ring-2 ring-red-300 {% endif %}
-                   {% if d.is_today %} ring-2 ring-blue-400 {% endif %}
-                   hover:bg-gray-100 focus:outline-none"
-            data-date="{{ d.date|date:'Y-m-d' }}"
-            {% if not d.in_month %} disabled {% endif %}
-          >
-            <span class="text-sm font-medium">{{ d.date.day }}</span>
-            {% if d.has_appt %}
-              <span class="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-red-500"></span>
-            {% endif %}
-          </button>
+      <div class="mt-3 grid grid-cols-7 gap-2">
+        {% for week in weeks %}
+          {% for d in week %}
+            {% with weekday=d.date|date:"w" %}
+              <button type="button"
+                      class="cal-cell relative flex w-full items-center justify-center rounded-2xl border border-transparent bg-white text-base font-semibold text-gray-700 shadow-sm focus:outline-none {% if not d.in_month %}out-month{% endif %} {% if weekday == '0' and d.in_month %}is-sun{% endif %} {% if d.is_today %}today{% endif %}"
+                      data-date="{{ d.date|date:'Y-m-d' }}"
+                      {% if not d.in_month %}disabled{% endif %}>
+                <span>{{ d.date.day }}</span>
+                {% if d.has_appt %}
+                  <span class="absolute bottom-2 dot"></span>
+                {% endif %}
+              </button>
+            {% endwith %}
+          {% endfor %}
         {% endfor %}
-      {% endfor %}
-    </div>
-  </section>
+      </div>
+    </section>
 
-  <!-- ================== RIGHT: Appointment List ================== -->
-  <section class="flex flex-col h-full bg-white rounded-2xl shadow-md overflow-hidden">
-    <header class="flex items-center justify-between px-4 py-3 border-b bg-gray-50">
-      <h3 id="list-title" class="text-lg font-semibold">Upcoming Appointments</h3>
-      <a href="{% url 'appointment-create' %}"
-         class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-red-500 text-white text-lg hover:bg-red-600">+</a>
-    </header>
-
-    <div id="appt-list" class="flex-1 overflow-y-auto p-3 space-y-3">
-      <!-- JS will render list here -->
-    </div>
-
-    <template id="appt-item-tpl">
-      <article class="bg-gray-50 rounded-xl shadow-sm p-3 hover:shadow-md transition">
-        <div class="flex items-start justify-between gap-2">
-          <div class="min-w-0">
-            <p class="text-sm font-semibold data-weekday"></p>
-            <p class="text-sm text-gray-600 data-time"></p>
-            <p class="text-sm text-gray-500 mt-1 data-details"></p>
-          </div>
-          <div class="flex items-center gap-3 text-gray-500 shrink-0">
-            <a class="edit-link hover:text-blue-600" title="Edit">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"
-                      d="M16.862 4.487l1.651-1.651a2.121 2.121 0 113 3l-9.193 9.193-4.243 1.06 1.06-4.243 7.725-7.359zM19.5 13.5V21a1.5 1.5 0 01-1.5 1.5H3.75A1.5 1.5 0 012.25 21V6A1.5 1.5 0 013.75 4.5H11" />
-              </svg>
-            </a>
-            <a class="del-link hover:text-red-600" title="Delete">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"
-                      d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m1 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 4v8m6-8v8" />
-              </svg>
-            </a>
-          </div>
+    <!-- Appointment list -->
+    <section class="flex flex-col rounded-3xl border border-gray-200 bg-[#f8f9fb] p-5 shadow-sm">
+      <header class="flex items-start justify-between gap-4">
+        <div>
+          <h2 id="list-title" class="text-2xl font-semibold text-gray-900 no-select">Upcoming Appointments</h2>
+          <p id="list-hint" class="mt-1 text-sm text-gray-500 no-select">Tap a date to see its schedule.</p>
         </div>
-      </article>
-    </template>
-  </section>
-</main>
+        <a href="{% url 'appointment-create' %}"
+           class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#bb271a] text-white shadow-sm transition hover:bg-[#921106]">
+          <span class="material-symbols-rounded text-[22px]">add</span>
+        </a>
+      </header>
 
-<!-- JSON data -->
+      <div id="appt-list" class="mt-6 flex-1 overflow-y-auto space-y-3">
+      </div>
+
+      <template id="appt-item-tpl">
+        <article class="rounded-3xl border border-gray-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+          <div class="flex items-start justify-between gap-4">
+            <div class="min-w-0 space-y-1">
+              <p class="text-sm font-semibold text-gray-900 data-weekday"></p>
+              <p class="text-sm text-gray-600 data-time"></p>
+              <p class="text-xs text-gray-500 data-details"></p>
+            </div>
+            <div class="flex shrink-0 items-center gap-2 text-gray-500">
+              <a class="edit-link inline-flex h-9 w-9 items-center justify-center rounded-full bg-sky-100 text-sky-600 transition hover:bg-sky-200" title="Edit">
+                <span class="material-symbols-rounded text-[20px]">edit</span>
+              </a>
+              <a class="del-link inline-flex h-9 w-9 items-center justify-center rounded-full bg-rose-100 text-rose-600 transition hover:bg-rose-200" title="Delete">
+                <span class="material-symbols-rounded text-[20px]">delete</span>
+              </a>
+            </div>
+          </div>
+        </article>
+      </template>
+    </section>
+  </div>
+</div>
+
 {{ appts_by_day|json_script:"appts-data" }}
 <script>
-  (function(){
-    const data  = JSON.parse(document.getElementById('appts-data').textContent || '{}');
+  (function () {
+    const data = JSON.parse(document.getElementById('appts-data').textContent || '{}');
     const cells = document.querySelectorAll('.cal-cell[data-date]');
-    const list  = document.getElementById('appt-list');
+    const list = document.getElementById('appt-list');
     const title = document.getElementById('list-title');
-    const tpl   = document.getElementById('appt-item-tpl');
+    const hint = document.getElementById('list-hint');
+    const tpl = document.getElementById('appt-item-tpl');
 
     const urlEdit = (id) => `{% url 'appointment-edit' 0 %}`.replace('/0/', `/${id}/`);
-    const urlDel  = (id) => `{% url 'appointment-delete' 0 %}`.replace('/0/', `/${id}/`);
+    const urlDel = (id) => `{% url 'appointment-delete' 0 %}`.replace('/0/', `/${id}/`);
 
-    function renderDay(dateStr){
-      // ไฮไลต์วันที่เลือก
-      cells.forEach(c => c.classList.remove('ring-4','ring-blue-500'));
+    const formatDate = (value) => {
+      try {
+        const date = new Date(`${value}T00:00:00`);
+        return date.toLocaleDateString('th-TH', {
+          weekday: 'short',
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric',
+        });
+      } catch (error) {
+        return value;
+      }
+    };
+
+    function setActive(dateStr) {
+      cells.forEach(cell => cell.classList.remove('selected-cell'));
       const active = document.querySelector(`.cal-cell[data-date="${dateStr}"]`);
-      if(active) active.classList.add('ring-4','ring-blue-500');
+      if (active) {
+        active.classList.add('selected-cell');
+      }
+    }
 
+    function renderEmpty(dateStr) {
+      title.textContent = formatDate(dateStr);
+      hint.textContent = 'No appointments for this day.';
+      list.innerHTML = `
+        <div class="rounded-3xl border border-dashed border-gray-300 bg-white p-6 text-center text-sm text-gray-500">
+          No appointment has been scheduled yet.
+        </div>
+      `;
+    }
+
+    function renderDay(dateStr) {
+      setActive(dateStr);
       list.innerHTML = '';
       const items = data[dateStr] || [];
-      if(!items.length){
-        title.textContent = 'No appointments on ' + dateStr;
-        list.innerHTML = `<div class="bg-white rounded-xl shadow p-3"><p class="text-sm text-gray-600">You have no appointment on this day</p></div>`;
+
+      if (!items.length) {
+        renderEmpty(dateStr);
         return;
       }
-      title.textContent = `Appointments · ${dateStr}`;
 
-      items.forEach(it=>{
+      title.textContent = formatDate(dateStr);
+      hint.textContent = items.length === 1
+        ? '1 appointment scheduled.'
+        : items.length + ' appointments scheduled.';
+
+      items.forEach(item => {
         const node = tpl.content.cloneNode(true);
-        node.querySelector('.data-weekday').textContent = `${it.weekday}, ${it.date}`;
-        node.querySelector('.data-time').textContent    = `${it.time} · ${it.doctor} · ${it.clinic}`;
-        node.querySelector('.data-details').textContent = it.details;
+        node.querySelector('.data-weekday').textContent = `${item.weekday}, ${item.date}`;
+        node.querySelector('.data-time').textContent = `${item.time} \u2022 ${item.doctor} \u2022 ${item.clinic}`;
+        node.querySelector('.data-details').textContent = item.details;
 
-        node.querySelector('.edit-link').href = urlEdit(it.id);
-        node.querySelector('.del-link').href  = urlDel(it.id);
-        node.querySelector('.del-link').setAttribute('onclick',"return confirm('ยืนยันลบนัดหมายนี้?')");
-
+        node.querySelector('.edit-link').href = urlEdit(item.id);
+        node.querySelector('.del-link').href = urlDel(item.id);
+        node.querySelector('.del-link').setAttribute('onclick', "return confirm('Are you sure you want to delete this appointment?')");
         list.appendChild(node);
       });
     }
 
     const initial = "{{ selected_date }}";
-    if(initial){ renderDay(initial); }
+    if (initial) {
+      renderDay(initial);
+    } else {
+      const todayCell = document.querySelector('.cal-cell.today');
+      if (todayCell) {
+        renderDay(todayCell.dataset.date);
+      }
+    }
 
-    cells.forEach(c=>{
-      c.addEventListener('click',()=>{
-        const d = c.dataset.date;
-        if(c.disabled) return;
-        renderDay(d);
+    cells.forEach(cell => {
+      cell.addEventListener('click', () => {
+        if (cell.disabled) {
+          return;
+        }
+        renderDay(cell.dataset.date);
       });
     });
   })();

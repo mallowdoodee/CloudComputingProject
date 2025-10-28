@@ -10,11 +10,23 @@
     </title>
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      label {
+        user-select: none;
+        -webkit-user-select: none;
+        cursor: pointer;
+      }
+      .no-select {
+        user-select: none;
+        -webkit-user-select: none;
+        cursor: default;
+      }
+    </style>
   </head>
 
   <body class="bg-gray-100 min-h-screen flex flex-col">
     <!-- Navbar -->
-    <nav class="bg-blue-800 text-white shadow-md">
+    <nav class="bg-blue-800 text-white shadow-md no-select">
       <div class="max-w-6xl mx-auto px-4">
         <div class="flex justify-between items-center h-16">
           {% comment %} <a href="/stitch/template/" class="text-xl font-semibold">Welcome</a> {% endcomment %}
@@ -51,7 +63,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-gray-400 text-center py-4">
+    <footer class="bg-gray-800 text-gray-400 text-center py-4 no-select">
       <p class="text-sm">&copy; 2025 Health Record. All rights reserved.</p>
     </footer>
   </body>

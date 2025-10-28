@@ -6,7 +6,7 @@
 <div class="max-w-6xl mx-auto grid grid-cols-1 gap-10 lg:grid-cols-2">
   <section class="h-full rounded-3xl border border-gray-200 bg-[#f8f9fb] p-6 shadow-sm">
     <div class="flex items-center justify-between">
-      <h2 class="text-2xl font-semibold text-gray-900">My Medications</h2>
+      <h2 class="text-2xl font-semibold text-gray-900 no-select">My Medications</h2>
       <a href="{% url 'intake-add' %}"
          class="inline-flex items-center justify-center gap-2 rounded-full bg-[#BB271A] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#921106]">
         <span>เพิ่มบันทึก</span>
@@ -64,7 +64,7 @@
 
   <section class="h-full rounded-3xl border border-gray-200 bg-[#f8f9fb] p-6 shadow-sm">
     <div class="flex items-center justify-between">
-      <h2 class="text-2xl font-semibold text-gray-900">Medicine</h2>
+      <h2 class="text-2xl font-semibold text-gray-900 no-select">Medicine</h2>
       <a href="{% url 'drug-add' %}"
         class="inline-flex h-9 w-9 items-center justify-center rounded-full text-[#BB271A] transition hover:bg-[#F9DFE4]"
         title="เพิ่มยา">

@@ -27,7 +27,7 @@ class AppointmentForm(forms.ModelForm):
             ),
             "clinic": forms.Select(
                 attrs={
-                    "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
+                    "class": "w-full select-arrow border border-gray-300 rounded-lg px-3 py-2 bg-white "
                              "focus:outline-none focus:ring-2 focus:ring-gray-200"
                 }
             ),
@@ -90,7 +90,7 @@ class AppointmentForm(forms.ModelForm):
             ),
             "patient": forms.Select(
                 attrs={
-                    "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
+                    "class": "w-full select-arrow border border-gray-300 rounded-lg px-3 py-2 bg-white "
                              "focus:outline-none focus:ring-2 focus:ring-gray-200"
                 }
             ),

@@ -23,17 +23,16 @@
   <section class="rounded-3xl border border-gray-200 bg-[#f8f9fb] p-8 shadow-sm">
     <div class="flex items-start justify-between gap-6">
       <div>
-        <h1 class="text-2xl font-semibold text-gray-900">{{ title }}</h1>
+        <h1 class="text-2xl font-semibold text-gray-900 no-select">{{ title }}</h1>
         {% if drug %}
-          <p class="mt-1 text-sm text-gray-500">Update the drug details to keep your plan accurate.</p>
+          <p class="mt-1 text-sm text-gray-500 no-select">Update the drug details to keep your plan accurate.</p>
         {% else %}
-          <p class="mt-1 text-sm text-gray-500">Add this medication so it appears in your plan.</p>
+          <p class="mt-1 text-sm text-gray-500 no-select">Add this medication so it appears in your plan.</p>
         {% endif %}
       </div>
       <a href="{% url 'med-dashboard' %}"
-         class="inline-flex items-center gap-1 rounded-full bg-white px-3 py-2 text-sm font-semibold text-[#BB271A] shadow-sm transition hover:bg-[#F9DFE4]">
-        <span class="material-symbols-rounded text-base">arrow_back</span>
-        Back
+         class="inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold text-[#0EA5E9] transition hover:text-[#0e48e9]">
+        Cancel
       </a>
     </div>
 
