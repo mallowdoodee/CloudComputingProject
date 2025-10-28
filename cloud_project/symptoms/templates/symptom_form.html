@@ -3,85 +3,98 @@
 {% block date_nav %}{% endblock %}
 
 {% block content %}
-<div class="max-w-xl mx-auto bg-white rounded-2xl shadow p-6">
-  <h2 class="text-xl font-bold text-[#981E1E] mb-4">{{ title }}</h2>
-
-  <form method="post" class="space-y-4">
-    {% csrf_token %}
-
-    <!-- ฟิลด์ชื่ออาการ -->
-    <div>
-      <label for="{{ form.name.id_for_label }}" class="block font-semibold text-gray-700 mb-1">
-        {{ form.name.label }}
-      </label>
-      {{ form.name }}
-      {% if form.name.help_text %}
-        <p class="text-sm text-gray-500 mt-1">{{ form.name.help_text }}</p>
-      {% endif %}
-      {% for error in form.name.errors %}
-        <p class="text-sm text-red-600 mt-1">{{ error }}</p>
-      {% endfor %}
-    </div>
-
-    <!-- ฟิลด์รายละเอียด -->
-    <div>
-      <label for="{{ form.note.id_for_label }}" class="block font-semibold text-gray-700 mb-1">
-        {{ form.note.label }}
-      </label>
-      {{ form.note }}
-      {% for error in form.note.errors %}
-        <p class="text-sm text-red-600 mt-1">{{ error }}</p>
-      {% endfor %}
-    </div>
-
-    <div>
-      <label for="{{ form.date.id_for_label }}" class="block font-semibold text-gray-700 mb-1">
-        {{ form.date.label }}
-      </label>
-      {{ form.date }}
-      {% if form.date.help_text %}
-        <p class="text-sm text-gray-500 mt-1">{{ form.date.help_text }}</p>
-      {% endif %}
-      {% for error in form.date.errors %}
-        <p class="text-sm text-red-600 mt-1">{{ error }}</p>
-      {% endfor %}
-    </div>
-
-    <!-- ฟิลด์เวลา -->
-    <div>
-      <label for="{{ form.time.id_for_label }}" class="block font-semibold text-gray-700 mb-1">
-        {{ form.time.label }}
-      </label>
-      {{ form.time }}
-      {% if form.time.help_text %}
-        <p class="text-sm text-gray-500 mt-1">{{ form.time.help_text }}</p>
-      {% endif %}
-      {% for error in form.time.errors %}
-        <p class="text-sm text-red-600 mt-1">{{ error }}</p>
-      {% endfor %}
-    </div>
-
-
-    <!-- ปุ่ม -->
-    <div class="flex items-center gap-3 mt-4">
-      <button type="submit"
-        class="bg-[#981E1E] text-white px-5 py-2 rounded-lg hover:bg-[#b52e2e] transition">
-        บันทึกอาการ
-      </button>
-
-      {% if symptom %}
-        <button type="submit" name="delete"
-          onclick="return confirm('ยืนยันการลบอาการนี้หรือไม่?')"
-          class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">
-          ลบ
-        </button>
-      {% endif %}
-
+<div class="max-w-md mx-auto">
+  <section class="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
+    <div class="flex items-start justify-between">
+      <h1 class="text-3xl font-semibold text-gray-900">{{ title }}</h1>
       <a href="{% url 'symptom-dashboard' %}"
-         class="text-gray-600 hover:underline">
-         กลับ
+         class="text-sm font-semibold text-sky-500 transition hover:text-sky-600">
+        Cancel
       </a>
     </div>
-  </form>
+
+    <form method="post" class="mt-8 space-y-6">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600 space-y-1">
+          {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="space-y-2">
+        <label for="{{ form.name.id_for_label }}" class="text-sm font-semibold text-gray-700">
+          Symptom Description
+        </label>
+        {{ form.name }}
+        {% if form.name.errors %}
+          <div class="text-sm text-rose-600 space-y-1">
+            {% for error in form.name.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="space-y-2">
+        <label for="{{ form.date.id_for_label }}" class="text-sm font-semibold text-gray-700">
+          Date Started
+        </label>
+        {{ form.date }}
+        {% if form.date.errors %}
+          <div class="text-sm text-rose-600 space-y-1">
+            {% for error in form.date.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="space-y-2">
+        <label for="{{ form.time.id_for_label }}" class="text-sm font-semibold text-gray-700">
+          Time Started
+        </label>
+        {{ form.time }}
+        {% if form.time.errors %}
+          <div class="text-sm text-rose-600 space-y-1">
+            {% for error in form.time.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="space-y-2">
+        <label for="{{ form.note.id_for_label }}" class="text-sm font-semibold text-gray-700">
+          Additional Notes (Optional)
+        </label>
+        {{ form.note }}
+        {% if form.note.errors %}
+          <div class="text-sm text-rose-600 space-y-1">
+            {% for error in form.note.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="space-y-3 pt-2">
+        <button type="submit"
+                class="w-full rounded-2xl bg-[#D05A6B] py-3 text-base font-semibold text-white transition hover:bg-[#c24b5d]">
+          Save
+        </button>
+
+        {% if symptom %}
+          <button type="submit" name="delete"
+                  onclick="return confirm('Remove this symptom?')"
+                  class="w-full rounded-2xl border border-rose-200 bg-rose-50 py-3 text-base font-semibold text-rose-600 transition hover:bg-rose-100">
+            Delete
+          </button>
+        {% endif %}
+      </div>
+    </form>
+  </section>
 </div>
 {% endblock %}

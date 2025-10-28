@@ -9,7 +9,7 @@ from .forms import DrugForm, MedicationIntakeForm
 class MedDashboardView(LoginRequiredMixin, View):
     def get(self, request):
         # แสดงเฉพาะยาของผู้ใช้ที่ล็อกอิน
-        drugs = Drug.objects.filter(user=request.user).order_by("name")
+        drugs = list(Drug.objects.filter(user=request.user).order_by("name"))
         # แสดงเฉพาะแผนกินยาของผู้ใช้ที่ล็อกอิน
         intakes = list(MedicationIntake.objects.filter(user=request.user).order_by("-start_date"))
 
@@ -21,8 +21,11 @@ class MedDashboardView(LoginRequiredMixin, View):
             "bg-purple-100 text-purple-700",
         ]
 
-        drugs_with_color = [(d, palette[i % len(palette)]) for i, d in enumerate(drugs)]
-        intakes_with_color = [(m, palette[i % len(palette)]) for i, m in enumerate(intakes)]
+        color_map = {drug.pk: palette[i % len(palette)] for i, drug in enumerate(drugs)}
+        default_color = palette[0] if palette else ""
+
+        drugs_with_color = [(drug, color_map.get(drug.pk, default_color)) for drug in drugs]
+        intakes_with_color = [(m, color_map.get(m.drug_id, default_color)) for m in intakes]
 
         return render(request, "dashboard.html", {
             "drugs_with_color": drugs_with_color,
