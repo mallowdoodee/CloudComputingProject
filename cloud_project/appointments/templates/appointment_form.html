@@ -52,6 +52,11 @@
       <div class="space-y-2">
         <label class="text-sm font-semibold text-gray-700">คลินิก / โรงพยาบาล</label>
         {{ form.clinic }}
+        <datalist id="clinic-options">
+          {% for option in form.fields.clinic.queryset %}
+            <option value="{{ option.name }}">{{ option.description }}</option>
+          {% endfor %}
+        </datalist>
         {% if form.clinic.errors %}
           <p class="text-sm text-red-600">{{ form.clinic.errors.0 }}</p>
         {% endif %}
