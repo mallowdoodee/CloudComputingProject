@@ -1,29 +1,82 @@
 {% extends "base.html" %}
 {% block title %}{{ title }}{% endblock %}
 {% block date_nav %}{% endblock %}
+
 {% block content %}
-<div class="max-w-xl mx-auto bg-white rounded-2xl shadow p-6">
-  <h2 class="text-xl font-bold text-[#981E1E] mb-4">{{ title }}</h2>
+<div class="max-w-lg mx-auto">
+  <div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+    <div class="flex items-start justify-between mb-8">
+      <h1 class="text-2xl font-semibold text-gray-900">{{ title }}</h1>
+      <a href="{% url 'med-dashboard' %}" class="text-sky-500 font-medium hover:text-sky-600">
+        Cancel
+      </a>
+    </div>
 
-  <form method="post" class="space-y-3">
-    {% csrf_token %}
-    {{ form.as_p }}
+    <form method="post" class="space-y-6">
+      {% csrf_token %}
 
-    <div class="flex items-center gap-3 mt-4">
-      <button type="submit" class="bg-[#981E1E] text-white px-4 py-2 rounded hover:bg-[#bb2d2d]">
-        บันทึก
-      </button>
-
-      {% if drug %}
-        <button type="submit" name="delete"
-                onclick="return confirm('ยืนยันการลบยานี้หรือไม่?')"
-                class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-          ลบยา
-        </button>
+      {% if form.non_field_errors %}
+        <div class="rounded-2xl bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 space-y-1">
+          {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+          {% endfor %}
+        </div>
       {% endif %}
 
-      <a href="{% url 'med-dashboard' %}" class="text-gray-600 hover:underline">กลับ</a>
-    </div>
-  </form>
+      {% for field in form %}
+        {% if field.field.widget.input_type == "checkbox" %}
+          <div class="space-y-2">
+            <label for="{{ field.id_for_label }}"
+                   class="flex items-center justify-between rounded-2xl bg-gray-50 px-4 py-3 cursor-pointer">
+              <span class="text-sm font-semibold text-gray-700 uppercase tracking-wide">{{ field.label }}</span>
+              {{ field }}
+            </label>
+            {% if field.help_text %}
+              <p class="text-xs text-gray-500 px-1">{{ field.help_text }}</p>
+            {% endif %}
+            {% if field.errors %}
+              <div class="text-sm text-red-600 space-y-1">
+                {% for error in field.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {% else %}
+          <div class="space-y-2">
+            <label for="{{ field.id_for_label }}" class="text-sm font-semibold text-gray-700 uppercase tracking-wide">
+              {{ field.label }}
+            </label>
+            {{ field }}
+            {% if field.help_text %}
+              <p class="text-xs text-gray-500">{{ field.help_text }}</p>
+            {% endif %}
+            {% if field.errors %}
+              <div class="text-sm text-red-600 space-y-1">
+                {% for error in field.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+
+      <div class="space-y-3 pt-2">
+        <button type="submit"
+                class="w-full rounded-2xl bg-[#d05a6b] text-white font-semibold py-3 shadow-sm hover:bg-[#c24b5d] transition">
+          Save
+        </button>
+
+        {% if drug %}
+          <button type="submit" name="delete"
+                  onclick="return confirm('---')"
+                  class="w-full rounded-2xl border border-red-200 bg-red-50 text-red-600 font-semibold py-3 hover:bg-red-100 transition">
+            ...
+          </button>
+        {% endif %}
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock %}

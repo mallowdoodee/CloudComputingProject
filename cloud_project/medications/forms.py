@@ -1,6 +1,14 @@
 from django import forms
 from .models import Drug, MedicationIntake
 
+INPUT_STYLE = (
+    "w-full rounded-2xl bg-gray-100 border border-transparent px-4 py-3 "
+    "text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 "
+    "focus:ring-rose-300 focus:border-rose-400 transition-colors"
+)
+TEXTAREA_STYLE = INPUT_STYLE + " resize-none min-h-[120px]"
+CHECKBOX_STYLE = "h-5 w-5 rounded border-gray-300 text-rose-500 focus:ring-rose-300 focus:outline-none"
+
 
 class DrugForm(forms.ModelForm):
     class Meta:
@@ -9,43 +17,35 @@ class DrugForm(forms.ModelForm):
         widgets = {
             "name": forms.TextInput(
                 attrs={
-                    "placeholder": "ชื่อยา",
-                    "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
-                             "focus:outline-none focus:ring-2 focus:ring-gray-200"
+                    "placeholder": "Medicine's Name",
+                    "class": INPUT_STYLE,
                 }
             ),
             "generic_name": forms.TextInput(
                 attrs={
-                    "placeholder": "ชื่อสามัญทางยา",
-                    "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
-                             "focus:outline-none focus:ring-2 focus:ring-gray-200"
+                    "placeholder": "generic name",
+                    "class": INPUT_STYLE,
                 }
             ),
             "strength": forms.TextInput(
                 attrs={
-                    "placeholder": "ขนาดยา เช่น 500 mg",
-                    "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
-                             "focus:outline-none focus:ring-2 focus:ring-gray-200"
+                    "placeholder": "3",
+                    "class": INPUT_STYLE,
                 }
             ),
             "form": forms.Select(
                 attrs={
-                    "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
-                            "focus:outline-none focus:ring-2 focus:ring-gray-200"
+                    "class": INPUT_STYLE,
                 }
             ),
             "description": forms.Textarea(
                 attrs={
                     "rows": 2,
-                    "placeholder": "รายละเอียดเพิ่มเติม...",
-                    "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
-                             "focus:outline-none focus:ring-2 focus:ring-gray-200 resize-none"
+                    "placeholder": "4",
+                    "class": TEXTAREA_STYLE,
                 }
             ),
         }
-
-from django import forms
-from .models import MedicationIntake
 
 
 class MedicationIntakeForm(forms.ModelForm):
@@ -57,72 +57,58 @@ class MedicationIntakeForm(forms.ModelForm):
         widgets = {
             "drug": forms.Select(
                 attrs={
-                    "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
-                             "focus:outline-none focus:ring-2 focus:ring-gray-200"
+                    "class": INPUT_STYLE,
                 }
             ),
             "dose": forms.TextInput(
                 attrs={
-                    "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
-                             "focus:outline-none focus:ring-2 focus:ring-gray-200"
+                    "class": INPUT_STYLE,
                 }
             ),
-            # "frequency": forms.Select(  # ดึง choices จาก model อัตโนมัติ
+            # "frequency": forms.Select(
             #     attrs={
-            #         "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
-            #                  "focus:outline-none focus:ring-2 focus:ring-gray-200"
+            #         "class": INPUT_STYLE,
             #     }
             # ),
-            # "instruction": forms.Select(  # ดึง choices จาก model อัตโนมัติ
+            # "instruction": forms.Select(
             #     attrs={
-            #         "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
-            #                  "focus:outline-none focus:ring-2 focus:ring-gray-200"
+            #         "class": INPUT_STYLE,
             #     }
             # ),
             # "start_date": forms.DateInput(
             #     attrs={
             #         "type": "date",
-            #         "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
-            #                  "focus:outline-none focus:ring-2 focus:ring-gray-200"
+            #         "class": INPUT_STYLE,
             #     }
             # ),
             # "end_date": forms.DateInput(
             #     attrs={
             #         "type": "date",
-            #         "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
-            #                  "focus:outline-none focus:ring-2 focus:ring-gray-200"
+            #         "class": INPUT_STYLE,
             #     }
             # ),
-
-            # ⏰ เพิ่มช่อง “เวลา”
             "time": forms.TimeInput(
                 attrs={
                     "type": "time",
-                    "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
-                             "focus:outline-none focus:ring-2 focus:ring-gray-200"
+                    "class": INPUT_STYLE,
                 }
             ),
-
             "note": forms.Textarea(
                 attrs={
                     "rows": 2,
-                    "placeholder": "บันทึกเพิ่มเติม...",
-                    "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
-                             "focus:outline-none focus:ring-2 focus:ring-gray-200 resize-none"
+                    "placeholder": "5",
+                    "class": TEXTAREA_STYLE,
                 }
             ),
             "active": forms.CheckboxInput(
                 attrs={
-                    "class": "rounded border-gray-300 text-indigo-600 focus:ring-gray-200"
+                    "class": CHECKBOX_STYLE,
                 }
             ),
         }
 
     def __init__(self, *args, **kwargs):
-        # ✅ ดึง user ที่ส่งมาจาก view
         user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)
-
-        # ✅ ถ้ามี user → กรอง queryset ของ drug ให้เฉพาะยาของ user คนนั้น
         if user:
             self.fields["drug"].queryset = Drug.objects.filter(user=user)
