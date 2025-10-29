@@ -4,26 +4,18 @@ from django.db.models import Q
 from .models import Appointment, Clinic
 
 
-class ClinicChoiceField(forms.ModelChoiceField):
-    """Dropdown สำหรับเลือกคลินิก (แสดงชื่อคลินิกเป็น label)"""
-    def label_from_instance(self, obj):
-        return obj.name
-
-
 class AppointmentForm(forms.ModelForm):
-    clinic = ClinicChoiceField(
-        queryset=Clinic.objects.order_by("name"),
-        widget=forms.TextInput(
-            attrs={
-                "placeholder": "Clinic or Department name",
-                "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
-                         "focus:outline-none focus:ring-2 focus:ring-gray-200",
-                "autocomplete": "off",
-                "list": "clinic-options",
-            }
-        ),
-    )
-
+    clinic = forms.ModelChoiceField(
+            queryset=Clinic.objects.order_by("name"),
+            empty_label="— Select Clinic —",
+            widget=forms.Select(
+                attrs={
+                    "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
+                            "focus:outline-none focus:ring-2 focus:ring-gray-200",
+                }
+            ),
+            label="Clinic / Department"
+        )
     class Meta:
         model = Appointment
         fields = [
@@ -111,8 +103,3 @@ class AppointmentForm(forms.ModelForm):
                 }
             ),
         }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # Text input does not use Django's default empty label.
-        self.fields["clinic"].empty_label = None

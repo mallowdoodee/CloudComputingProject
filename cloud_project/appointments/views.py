@@ -7,7 +7,8 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpRequest
 from django.urls import reverse
 from django.utils.timezone import localdate
-from django.db.models import Q 
+from django.db.models import Q
+import datetime
 
 # ===== IMPORT MODEL ข้าม APP =====
 from .models import Appointment, Profile
@@ -65,7 +66,16 @@ class AppointmentListView(LoginRequiredMixin, View):
 class AppointmentCreateView(LoginRequiredMixin, View):
     def get(self, request: HttpRequest):
         profile, _ = Profile.objects.get_or_create(user=request.user)
-        form = AppointmentForm(initial={"patient": profile})
+
+        initial = {"patient": profile}
+        qdate = request.GET.get("date")
+        if qdate:
+            try:
+                initial["date"] = datetime.date.fromisoformat(qdate)
+            except ValueError:
+                pass
+
+        form = AppointmentForm(initial=initial)
         return render(request, "appointment_form.html", {
             "form": form,
             "title": "เพิ่มนัดหมาย"

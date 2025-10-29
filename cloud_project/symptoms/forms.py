@@ -53,8 +53,13 @@ class SymptomForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        # ตั้งค่าวันเริ่มต้นเป็นวันนี้
         if not self.instance.pk:
             if not self.initial.get("date"):
                 self.initial["date"] = timezone.localdate()
             if not self.initial.get("time"):
                 self.initial["time"] = timezone.localtime().strftime("%H:%M")
+
+        # 🚫 ห้ามเลือกวันที่ในอนาคต
+        self.fields["date"].widget.attrs["max"] = timezone.localdate().isoformat()
