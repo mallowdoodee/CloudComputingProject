@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Recent Symptoms{% endblock %}
-
+{% block date_nav %}{% endblock %}
 {% block content %}
 <div class="max-w-4xl mx-auto">
   <section class="rounded-3xl border border-gray-200 bg-[#f8f9fb] p-6 shadow-sm">
@@ -14,38 +14,58 @@
     </div>
 
     {% if symptoms %}
-      <div class="mt-6 space-y-4">
-        {% for s in symptoms %}
-          <article class="rounded-3xl border border-gray-200 bg-white px-5 py-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-            <div class="flex items-start justify-between gap-4">
-              <div class="space-y-1">
-                <p class="text-sm font-semibold text-gray-500">{{ s.time|time:"H:i" }} | {{ s.date|date:"d/m/Y" }}</p>
-                <p class="text-base font-semibold text-gray-900">{{ s.name }}</p>
-                <p class="text-sm text-gray-600">{{ s.note|default:"-" }}</p>
-              </div>
-              <div class="flex items-center gap-2 shrink-0">
-                <a href="{% url 'symptom-edit' s.pk %}"
-                   class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-sky-100 text-sky-600 transition hover:bg-sky-200"
-                   title="Edit symptom">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 3.487a2.1 2.1 0 1 1 2.97 2.97L8.203 18.086a4.2 4.2 0 0 1-1.764 1.054l-3.042.87.87-3.043a4.2 4.2 0 0 1 1.054-1.763l11.541-11.541z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25l3 3"/>
-                  </svg>
-                </a>
-                <form method="post" action="{% url 'symptom-edit' s.pk %}" class="inline">
-                  {% csrf_token %}
-                  <button type="submit" name="delete" value="1"
-                          class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-rose-100 text-rose-600 transition hover:bg-rose-200"
-                          onclick="return confirm('Remove this symptom?')"
-                          title="Delete symptom">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.14A2 2 0 0 1 16.138 21H7.862a2 2 0 0 1-1.995-1.86L5 7m5 4v6m4-6v6m1-10V4a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v3M4 7h16"/>
-                    </svg>
-                  </button>
-                </form>
-              </div>
+      {% regroup symptoms by date as symptom_groups %}
+      <div class="mt-6 divide-y divide-gray-200">
+        {% for group in symptom_groups %}
+          <div class="py-4 {% if not forloop.first %}border-t border-gray-200{% endif %}">
+            <p class="mb-2 text-sm font-semibold text-gray-500">
+              {% if today and group.grouper == today %}
+                วันนี้
+              {% else %}
+                {{ group.grouper|date:"d/m/Y" }}
+              {% endif %}
+            </p>
+
+            <div class="space-y-3">
+              {% for s in group.list %}
+                <article class="rounded-3xl border border-gray-200 bg-white px-5 py-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                  <div class="flex items-start justify-between gap-4">
+                    <div class="space-y-1 min-w-0">
+                      <p class="text-sm font-semibold text-gray-500">
+                        {% if s.time %}{{ s.time|time:"H:i" }}{% else %}-{% endif %}
+                        | {{ s.date|date:"d/m/Y" }}
+                      </p>
+                      <p class="text-base font-semibold text-gray-900 truncate">{{ s.name }}</p>
+                      <p class="text-sm text-gray-600 break-words">{{ s.note|default:"-" }}</p>
+                    </div>
+
+                    <div class="flex items-center gap-2 shrink-0">
+                      <a href="{% url 'symptom-edit' s.pk %}"
+                         class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-sky-100 text-sky-600 transition hover:bg-sky-200"
+                         title="Edit symptom">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 3.487a2.1 2.1 0 1 1 2.97 2.97L8.203 18.086a4.2 4.2 0 0 1-1.764 1.054l-3.042.87.87-3.043a4.2 4.2 0 0 1 1.054-1.763l11.541-11.541z"/>
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25l3 3"/>
+                        </svg>
+                      </a>
+
+                      <form method="post" action="{% url 'symptom-edit' s.pk %}" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" name="delete" value="1"
+                                class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-rose-100 text-rose-600 transition hover:bg-rose-200"
+                                onclick="return confirm('Remove this symptom?')"
+                                title="Delete symptom">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.14A2 2 0 0 1 16.138 21H7.862a2 2 0 0 1-1.995-1.86L5 7m5 4v6m4-6v6m1-10V4a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v3M4 7h16"/>
+                          </svg>
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </article>
+              {% endfor %}
             </div>
-          </article>
+          </div>
         {% endfor %}
       </div>
     {% else %}

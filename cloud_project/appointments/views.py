@@ -7,33 +7,69 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpRequest
 from django.urls import reverse
 from django.utils.timezone import localdate
+from django.db.models import Q 
 
+# ===== IMPORT MODEL ข้าม APP =====
 from .models import Appointment, Profile
+from symptoms.models import Symptom
+from medications.models import MedicationIntake
+
+# ===== FORM =====
 from .forms import AppointmentForm
-
-
 class AppointmentListView(LoginRequiredMixin, View):
     def get(self, request: HttpRequest):
+        from django.db.models import Q
+
         profile, _ = Profile.objects.get_or_create(user=request.user)
         today = localdate()
+
+        # ========== นัดหมายวันนี้ ==========
         appointments_today = (
             Appointment.objects
             .filter(patient=profile, date=today)
             .select_related("clinic", "patient")
             .order_by("at_time")
         )
-        return render(request, "today_list.html", {
+
+        # ========== อาการที่บันทึก "วันนี้" ==========
+        # ✅ แก้ตรงนี้: ใช้ date แทน created_at__date
+        symptom_logs = (
+            Symptom.objects
+            .filter(user=request.user, date=today)
+            .order_by("-created_at")
+        )
+
+        # ========== แผนการกินยาที่ต้องกิน "วันนี้" ==========
+        medications_upcoming = (
+            MedicationIntake.objects
+            .filter(
+                user=request.user,
+                active=True,
+                start_date__lte=today
+            )
+            .filter(Q(end_date__gte=today) | Q(end_date__isnull=True))
+            .select_related("drug")
+            .order_by("time")
+        )
+
+        return render(request, "today_dashboard.html", {
             "appointments_today": appointments_today,
-            "medications_upcoming": [],
-            "symptom_logs": [],
+            "symptom_logs": symptom_logs,
+            "medications_upcoming": medications_upcoming,
         })
 
 
+# ================================
+# CREATE
+# ================================
 class AppointmentCreateView(LoginRequiredMixin, View):
     def get(self, request: HttpRequest):
         profile, _ = Profile.objects.get_or_create(user=request.user)
         form = AppointmentForm(initial={"patient": profile})
-        return render(request, "appointment_form.html", {"form": form, "title": "เพิ่มนัดหมาย"})
+        return render(request, "appointment_form.html", {
+            "form": form,
+            "title": "เพิ่มนัดหมาย"
+        })
 
     def post(self, request: HttpRequest):
         profile, _ = Profile.objects.get_or_create(user=request.user)
@@ -43,16 +79,25 @@ class AppointmentCreateView(LoginRequiredMixin, View):
             appt.patient = profile
             appt.save()
             return redirect("appointment-calendar")
-        return render(request, "appointment_form.html", {"form": form, "title": "เพิ่มนัดหมาย"})
+        return render(request, "appointment_form.html", {
+            "form": form,
+            "title": "เพิ่มนัดหมาย"
+        })
 
 
+# ================================
+# EDIT
+# ================================
 class AppointmentEditView(LoginRequiredMixin, View):
     def get(self, request: HttpRequest, pk):
         appt = get_object_or_404(Appointment.objects.select_related("patient", "clinic"), pk=pk)
         if not (request.user.is_staff or getattr(request.user, "profile", None) == appt.patient):
             raise PermissionDenied("แก้ไขได้เฉพาะเจ้าของนัดหมายหรือเจ้าหน้าที่เท่านั้น")
         form = AppointmentForm(instance=appt)
-        return render(request, "appointment_form.html", {"form": form, "title": "แก้ไขนัดหมาย"})
+        return render(request, "appointment_form.html", {
+            "form": form,
+            "title": "แก้ไขนัดหมาย"
+        })
 
     def post(self, request: HttpRequest, pk):
         appt = get_object_or_404(Appointment.objects.select_related("patient", "clinic"), pk=pk)
@@ -64,9 +109,15 @@ class AppointmentEditView(LoginRequiredMixin, View):
             obj.patient = appt.patient
             obj.save()
             return redirect("appointment-calendar")
-        return render(request, "appointment_form.html", {"form": form, "title": "แก้ไขนัดหมาย"})
+        return render(request, "appointment_form.html", {
+            "form": form,
+            "title": "แก้ไขนัดหมาย"
+        })
 
 
+# ================================
+# DELETE
+# ================================
 class AppointmentDeleteView(LoginRequiredMixin, View):
     def get(self, request: HttpRequest, pk):
         appt = get_object_or_404(Appointment.objects.select_related("patient"), pk=pk)
@@ -75,6 +126,10 @@ class AppointmentDeleteView(LoginRequiredMixin, View):
         appt.delete()
         return redirect("appointment-calendar")
 
+
+# ================================
+# CALENDAR
+# ================================
 class AppointmentCalendarView(LoginRequiredMixin, View):
     def get(self, request: HttpRequest, year=None, month=None):
         today = localdate()
@@ -95,6 +150,7 @@ class AppointmentCalendarView(LoginRequiredMixin, View):
             .order_by("date", "at_time")
         )
 
+        # group นัดหมายตามวัน
         appts_by_day = {}
         for a in appts_month:
             key = a.date.isoformat()
@@ -109,8 +165,10 @@ class AppointmentCalendarView(LoginRequiredMixin, View):
                 "details": a.details or "—",
             })
 
+        # วันทั้งหมดที่มีนัด
         dates_with_appt = set(appts_month.values_list("date", flat=True))
 
+        # สร้างปฏิทินรายสัปดาห์
         cal = calendar.Calendar(firstweekday=6)
         weeks, week = [], []
         for d in cal.itermonthdates(y, m):
@@ -121,13 +179,15 @@ class AppointmentCalendarView(LoginRequiredMixin, View):
                 "has_appt": d in dates_with_appt,
             })
             if len(week) == 7:
-                weeks.append(week); week = []
+                weeks.append(week)
+                week = []
 
-        # เลือกวันนี้เสมอเมื่อเข้าหน้าเดือนปัจจุบัน (เช่น /appointments/calendar/2025/10/)
-        if y == today.year and m == today.month:
-            selected_date = today.isoformat()
-        else:
-            selected_date = next((d.isoformat() for d in sorted(dates_with_appt) if d.month == m), "")
+        # กำหนดวันที่เลือก (highlight)
+        selected_date = (
+            today.isoformat()
+            if y == today.year and m == today.month
+            else next((d.isoformat() for d in sorted(dates_with_appt) if d.month == m), "")
+        )
 
         ctx = {
             "year": y, "month": m, "month_name": calendar.month_name[m],

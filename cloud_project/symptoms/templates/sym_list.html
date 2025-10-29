@@ -1,84 +1,142 @@
 {% extends "base.html" %}
-{% block title %}อาการทั้งหมด{% endblock %}
+{% block title %}อาการและแผนการทานยา{% endblock %}
 {% block date_nav %}{% endblock %}
 
 {% block content %}
-<main class="max-w-4xl mx-auto p-6 space-y-4">
+<main class="max-w-4xl mx-auto p-6 space-y-8">
 
-  <!-- หัวข้อ + จำนวนรายการ -->
-  <header class="flex items-center justify-between">
-    <h1 class="text-xl font-semibold text-gray-900 no-select">อาการทั้งหมด</h1>
-    {% if page_obj %}
-      <span class="text-sm text-gray-500 no-select">ทั้งหมด {{ page_obj.paginator.count }} รายการ</span>
-    {% endif %}
-  </header>
+  <!-- ===== อาการทั้งหมด ===== -->
+  <section>
+    <!-- หัวข้อ -->
+    <header class="flex items-center justify-between mb-3">
+      <h1 class="text-xl font-semibold text-gray-900 no-select">อาการทั้งหมด</h1>
+      <a href="{% url 'symptom-dashboard' %}"
+         class="text-sm font-medium text-blue-600 hover:text-blue-800">
+        View All
+      </a>
+    </header>
 
-  <!-- กล่องรายการ -->
-  <section class="bg-white rounded-2xl border border-gray-200 shadow-sm">
-    {% if symptoms %}
-      <ul class="divide-y divide-gray-200">
-        {% for s in symptoms %}
-          <li class="p-4 hover:bg-gray-50 transition">
-            <div class="flex items-start justify-between gap-4">
-              <div class="min-w-0">
-                <p class="font-medium text-gray-900 truncate">{{ s.name }}</p>
-                <p class="text-xs text-gray-500">{{ s.created_at|date:"d/m/Y H:i" }}</p>
-                {% if s.note %}
-                  <p class="text-sm text-gray-600 mt-1 break-words">{{ s.note }}</p>
+    <!-- กล่องข้อมูล -->
+    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+      {% if symptoms %}
+        {% regroup symptoms by date as symptom_groups %}
+        <div class="divide-y divide-gray-100">
+          {% for group in symptom_groups %}
+            <div class="p-4 {% if not forloop.first %}border-t border-gray-100{% endif %}">
+              <p class="text-sm text-gray-500 mb-1">
+                {% if group.grouper == today %}
+                  วันนี้
+                {% else %}
+                  {{ group.grouper|date:"d M Y" }}
                 {% endif %}
-              </div>
-              <a href="{% url 'symptom-edit' s.pk %}"
-                 class="shrink-0 inline-flex items-center px-2.5 py-1.5 rounded-lg border border-gray-300
-                        text-sm text-gray-700 bg-white hover:bg-gray-100 transition">
-                แก้ไข
-              </a>
+              </p>
+
+              <ul class="space-y-2">
+                {% for s in group.list %}
+                  <li class="p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
+                    <div class="flex items-start justify-between gap-4">
+                      <div class="min-w-0">
+                        <p class="font-medium text-gray-900">{{ s.name }}</p>
+                        <p class="text-xs text-gray-500">
+                          {% if s.time %}{{ s.time|time:"H:i" }}{% endif %}
+                        </p>
+                        {% if s.note %}
+                          <p class="text-sm text-gray-600 mt-1 break-words">{{ s.note }}</p>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
             </div>
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <div class="p-8 text-center">
-        <p class="text-gray-500">ยังไม่มีการบันทึกอาการ</p>
-      </div>
-    {% endif %}
-  </section>
-
-  <!-- Pagination (แสดงเมื่อมีมากกว่า 1 หน้า) -->
-  {% if page_obj and page_obj.paginator.num_pages > 1 %}
-    <nav class="flex items-center justify-center gap-2">
-      {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}"
-           class="px-3 py-1.5 text-sm rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-100 transition">
-          ก่อนหน้า
-        </a>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="p-8 text-center text-gray-500">
+          ยังไม่มีการบันทึกอาการ
+        </div>
       {% endif %}
+    </div>
 
-      <!-- เลขหน้าแบบย่อ (window) -->
-      {% for num in page_obj.paginator.page_range %}
-        {% if num == 1 or num == page_obj.paginator.num_pages or num == page_obj.number or num == page_obj.number|add:-1 or num == page_obj.number|add:1 %}
+    <!-- Pagination -->
+    {% if page_obj and page_obj.paginator.num_pages > 1 %}
+      <nav class="flex items-center justify-center gap-2 mt-4">
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}"
+             class="px-3 py-1.5 text-sm rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-100">
+            ก่อนหน้า
+          </a>
+        {% endif %}
+        {% for num in page_obj.paginator.page_range %}
           {% if num == page_obj.number %}
             <span class="px-3 py-1.5 text-sm rounded-lg border border-gray-300 bg-gray-100 text-gray-800">{{ num }}</span>
           {% else %}
             <a href="?page={{ num }}"
-               class="px-3 py-1.5 text-sm rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-100 transition">
+               class="px-3 py-1.5 text-sm rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-100">
               {{ num }}
             </a>
           {% endif %}
-        {% elif num == 2 and page_obj.number > 3 %}
-          <span class="px-2 text-gray-400">…</span>
-        {% elif num == page_obj.paginator.num_pages|add:-1 and page_obj.number < page_obj.paginator.num_pages|add:-2 %}
-          <span class="px-2 text-gray-400">…</span>
+        {% endfor %}
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}"
+             class="px-3 py-1.5 text-sm rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-100">
+            ถัดไป
+          </a>
         {% endif %}
-      {% endfor %}
+      </nav>
+    {% endif %}
+  </section>
 
-      {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}"
-           class="px-3 py-1.5 text-sm rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-100 transition">
-          ถัดไป
-        </a>
+  <!-- ===== แผนการทานยา ===== -->
+  <section>
+    <header class="flex items-center justify-between mb-3">
+      <h2 class="text-xl font-semibold text-gray-900 no-select">แผนการทานยา</h2>
+      <a href="{% url 'med-dashboard' %}"
+         class="text-sm font-medium text-blue-600 hover:text-blue-800">
+        View All
+      </a>
+    </header>
+
+    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+      {% if medications_all %}
+        {% regroup medications_all by start_date as med_groups %}
+        <div class="divide-y divide-gray-100">
+          {% for group in med_groups %}
+            <div class="p-4 {% if not forloop.first %}border-t border-gray-100{% endif %}">
+              <ul class="space-y-2">
+                {% for m in group.list %}
+                  <li class="p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
+                    <div class="min-w-0">
+                      <p class="text-sm text-gray-500">
+                        {% if m.time %}{{ m.time|time:"H:i" }}{% endif %}
+                        {% if m.get_frequency_display %} • {{ m.get_frequency_display }}{% endif %}
+                        {% if m.get_instruction_display %} • {{ m.get_instruction_display }}{% endif %}
+                      </p>
+                      <p class="font-medium text-gray-900">
+                        {{ m.drug.name }}
+                        {% if m.dose %}<span class="text-sm text-gray-500">({{ m.dose }})</span>{% endif %}
+                      </p>
+                      <p class="text-xs text-gray-500">
+                        เริ่ม {{ m.start_date|date:"d/m/Y" }}
+                        {% if m.end_date %} ถึง {{ m.end_date|date:"d/m/Y" }}{% endif %}
+                      </p>
+                      {% if m.note %}
+                        <p class="text-sm text-gray-600 mt-1">{{ m.note }}</p>
+                      {% endif %}
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="p-8 text-center text-gray-500">
+          ยังไม่มีแผนการทานยา
+        </div>
       {% endif %}
-    </nav>
-  {% endif %}
+    </div>
+  </section>
 
 </main>
 {% endblock %}

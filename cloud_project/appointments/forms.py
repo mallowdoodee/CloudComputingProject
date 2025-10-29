@@ -5,38 +5,9 @@ from .models import Appointment, Clinic
 
 
 class ClinicChoiceField(forms.ModelChoiceField):
-    """Allow typing a clinic name instead of picking from a dropdown."""
-
-    def prepare_value(self, value):
-        if isinstance(value, Clinic):
-            return value.name
-        return super().prepare_value(value)
-
-    def to_python(self, value):
-        if not value:
-            return super().to_python(value)
-        if isinstance(value, Clinic):
-            return value
-
-        value = (value or "").strip()
-        if not value:
-            return super().to_python(value)
-
-        try:
-            return super().to_python(value)
-        except (ValueError, self.queryset.model.DoesNotExist):
-            pass
-
-        match = (
-            self.queryset.filter(
-                Q(name__iexact=value) | Q(description__iexact=value)
-            )
-            .order_by("name")
-            .first()
-        )
-        if match:
-            return match
-        raise forms.ValidationError("Clinic or hospital not found.")
+    """Dropdown สำหรับเลือกคลินิก (แสดงชื่อคลินิกเป็น label)"""
+    def label_from_instance(self, obj):
+        return obj.name
 
 
 class AppointmentForm(forms.ModelForm):
@@ -44,7 +15,7 @@ class AppointmentForm(forms.ModelForm):
         queryset=Clinic.objects.order_by("name"),
         widget=forms.TextInput(
             attrs={
-                "placeholder": "Clinic or hospital name",
+                "placeholder": "Clinic or Department name",
                 "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
                          "focus:outline-none focus:ring-2 focus:ring-gray-200",
                 "autocomplete": "off",
