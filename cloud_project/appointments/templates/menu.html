@@ -1,106 +1,132 @@
 <div class="fixed bottom-24 right-8 flex flex-col items-end gap-3">
 
-    <!-- Mini Action: Add Symptom (pencil) -->
-    <button id="miniSymptom"
-      class="pointer-events-none opacity-0 translate-y-3 scale-95
-             w-12 h-12 rounded-full bg-white shadow-lg ring-1 ring-black/5
-             flex items-center justify-center transition-all duration-200 mr-1"
-      aria-hidden="true" title="Add Symptom">
-      <!-- pencil icon (stroke red) -->
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
-       class="w-6 h-6"
-       fill="red">
-        <path d="M200-200h57l391-391-57-57-391 391v57Zm-40 80q-17 0-28.5-11.5T120-160v-97q0-16 6-30.5t17-25.5l505-504q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L313-143q-11 11-25.5 17t-30.5 6h-97Zm600-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
-      </svg>
-    </button>
+  <!-- Mini Action: Add Appointment -->
+  <button id="miniDoctor"
+          class="pointer-events-none opacity-0 translate-y-3 scale-95
+                 w-12 h-12 rounded-full bg-white shadow-lg ring-1 ring-black/5
+                 flex items-center justify-center transition-all duration-200 mr-1"
+          aria-hidden="true" title="Add symptom">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
+         class="w-6 h-6" fill="#BB271A">
+      <path d="M480-600q-58 0-99-41t-41-99q0-58 41-99t99-41q58 0 99 41t41 99q0 58-41 99t-99 41Zm0-80q25 0 42.5-17.5T540-740q0-25-17.5-42.5T480-800q-25 0-42.5 17.5T420-740q0 25 17.5 42.5T480-680Zm-57 543L240-320q-20-20-30-45t-10-55q0-59 40.5-99.5T340-560q29 0 53.5 11t44.5 31l42 42 42-42q20-20 44.5-31t53.5-11q59 0 99.5 40.5T760-420q0 30-10 55t-30 45L537-137q-12 12-27 18t-30 6q-15 0-30-6t-27-18Zm57-57 182-182q9-9 13.5-20.5T680-420q0-24-17-42t-43-18q-12 0-21.5 3.5T580-464L480-364 380-464q-6-6-15.5-11t-24.5-5q-26 0-43 18t-17 42q0 12 5 22.5t13 19.5l182 184Zm0-546Zm0 403Z"/>
+    </svg>
+  </button>
 
-    <!-- Mini Action: Add Medicine (pill) -->
-    <button id="miniMedicine"
-      class="pointer-events-none opacity-0 translate-y-3 scale-95
-             w-12 h-12 rounded-full bg-white shadow-lg ring-1 ring-black/5
-             flex items-center justify-center transition-all duration-200 mr-1"
-      aria-hidden="true" title="Add Medicine">
-      <!-- pill icon (stroke red) -->
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
-       class="w-6 h-6"
-       fill="red">
-        <path d="M420-360v40q0 25 17.5 42.5T480-260q25 0 42.5-17.5T540-320v-40h40q25 0 42.5-17.5T640-420q0-25-17.5-42.5T580-480h-40v-40q0-25-17.5-42.5T480-580q-25 0-42.5 17.5T420-520v40h-40q-25 0-42.5 17.5T320-420q0 25 17.5 42.5T380-360h40ZM280-120q-33 0-56.5-23.5T200-200v-440q0-33 23.5-56.5T280-720h400q33 0 56.5 23.5T760-640v440q0 33-23.5 56.5T680-120H280Zm0-80h400v-440H280v440Zm0-560q-17 0-28.5-11.5T240-800q0-17 11.5-28.5T280-840h400q17 0 28.5 11.5T720-800q0 17-11.5 28.5T680-760H280Zm0 120v440-440Z"/>
-      </svg>
-    </button>
+  <!-- Mini Action: Add Symptom -->
+  <button id="miniSymptom"
+          class="pointer-events-none opacity-0 translate-y-3 scale-95
+                 w-12 h-12 rounded-full bg-white shadow-lg ring-1 ring-black/5
+                 flex items-center justify-center transition-all duration-200 mr-1"
+          aria-hidden="true" title="Add symptom">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
+         class="w-6 h-6" fill="#BB271A">
+      <path d="M200-200h57l391-391-57-57-391 391v57Zm-40 80q-17 0-28.5-11.5T120-160v-97q0-16 6-30.5t17-25.5l505-504q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L313-143q-11 11-25.5 17t-30.5 6h-97Zm600-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
+    </svg>
+  </button>
 
-    <!-- Main FAB -->
-    <button id="fab"
-      class="w-14 h-14 rounded-full shadow-xl grid place-items-center
-             text-white bg-gradient-to-b from-rose-400 to-rose-600
-             hover:from-rose-500 hover:to-rose-700 transition-colors duration-200"
-      aria-expanded="false" aria-controls="miniMedicine miniSymptom" title="Add">
-      <!-- plus / X icon (animate rotate) -->
-      <svg id="fabIcon" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 transition-transform duration-200"
-           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" d="M12 4v16"/>
-        <path stroke-linecap="round" d="M4 12h16"/>
-      </svg>
-    </button>
-  </div>
+  <!-- Mini Action: Add Medicine -->
+  <button id="miniMedicine"
+          class="pointer-events-none opacity-0 translate-y-3 scale-95
+                 w-12 h-12 rounded-full bg-white shadow-lg ring-1 ring-black/5
+                 flex items-center justify-center transition-all duration-200 mr-1"
+          aria-hidden="true" title="Add medication">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
+         class="w-6 h-6" fill="#BB271A">
+      <path d="M420-360v40q0 25 17.5 42.5T480-260q25 0 42.5-17.5T540-320v-40h40q25 0 42.5-17.5T640-420q0-25-17.5-42.5T580-480h-40v-40q0-25-17.5-42.5T480-580q-25 0-42.5 17.5T420-520v40h-40q-25 0-42.5 17.5T320-420q0 25 17.5 42.5T380-360h40ZM280-120q-33 0-56.5-23.5T200-200v-440q0-33 23.5-56.5T280-720h400q33 0 56.5 23.5T760-640v440q0 33-23.5 56.5T680-120H280Zm0-80h400v-440H280v440Zm0-560q-17 0-28.5-11.5T240-800q0-17 11.5-28.5T280-840h400q17 0 28.5 11.5T720-800q0 17-11.5 28.5T680-760H280Zm0 120v440-440Z"/>
+    </svg>
+  </button>
+
+  <!-- Main FAB -->
+  <button id="fab"
+          class="w-14 h-14 rounded-full shadow-xl grid place-items-center
+                 text-white bg-gradient-to-b from-rose-400 to-rose-600
+                 hover:from-rose-500 hover:to-rose-700 transition-colors duration-200"
+          aria-expanded="false" aria-controls="miniDoctor miniSymptom miniMedicine" title="Add">
+    <svg id="fabIcon" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 transition-transform duration-200"
+         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" d="M12 4v16"/>
+      <path stroke-linecap="round" d="M4 12h16"/>
+    </svg>
+  </button>
+</div>
 
 <script>
   const fab = document.getElementById('fab');
   const fabIcon = document.getElementById('fabIcon');
-  const miniMed = document.getElementById('miniMedicine');
+  const miniDoc = document.getElementById('miniDoctor');
   const miniSym = document.getElementById('miniSymptom');
+  const miniMed = document.getElementById('miniMedicine');
+  const miniButtons = [miniDoc, miniSym, miniMed].filter(Boolean);
 
-  // << เพิ่ม: เก็บ URL จาก Django -->
-  const URL_INTAKE_ADD  = "{% url 'intake-add' %}";
+  const URL_APPOINTMENT_ADD = "{% url 'appointment-create' %}";
   const URL_SYMPTOM_ADD = "{% url 'symptom-add' %}";
+  const URL_INTAKE_ADD = "{% url 'intake-add' %}";
 
   let open = false;
 
-  function setOpen(v) {
-    open = v;
+  function setOpen(status) {
+    open = status;
     fab.setAttribute('aria-expanded', String(open));
     fabIcon.style.transform = open ? 'rotate(45deg)' : 'rotate(0deg)';
 
-    [miniMed, miniSym].forEach((el, i) => {
+    miniButtons.forEach((btn, index) => {
       if (open) {
-        el.classList.remove('opacity-0','translate-y-3','scale-95','pointer-events-none');
-        el.classList.add('opacity-100','translate-y-0','scale-100');
-        el.style.transitionDelay = (i * 40) + 'ms';
+        btn.classList.remove('opacity-0', 'translate-y-3', 'scale-95', 'pointer-events-none');
+        btn.classList.add('opacity-100', 'translate-y-0', 'scale-100');
+        btn.style.transitionDelay = `${index * 40}ms`;
       } else {
-        el.classList.add('opacity-0','translate-y-3','scale-95','pointer-events-none');
-        el.classList.remove('opacity-100','translate-y-0','scale-100');
-        el.style.transitionDelay = '0ms';
+        btn.classList.add('opacity-0', 'translate-y-3', 'scale-95', 'pointer-events-none');
+        btn.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
+        btn.style.transitionDelay = '0ms';
       }
     });
   }
 
-  fab.addEventListener('click', (e) => {
-    e.stopPropagation();
+  fab.addEventListener('click', (event) => {
+    event.stopPropagation();
     setOpen(!open);
   });
 
-  // คลิกข้างนอกเพื่อปิด
-  document.addEventListener('click', () => { if (open) setOpen(false); });
+  document.addEventListener('click', () => {
+    if (open) setOpen(false);
+  });
 
-  // ไปหน้า intake-add
-  if (miniMed) {
-    miniMed.addEventListener('click', (e) => {
-      e.stopPropagation();
-      window.location.href = URL_INTAKE_ADD;   // 👈 ไปหน้าเพิ่มยา
+  if (miniDoc) {
+    miniDoc.addEventListener('click', (event) => {
+      event.stopPropagation();
+      window.location.href = URL_APPOINTMENT_ADD;
     });
-    // รองรับคีย์บอร์ด
-    miniMed.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.location.href = URL_INTAKE_ADD; }
+    miniDoc.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        window.location.href = URL_APPOINTMENT_ADD;
+      }
     });
   }
 
-  // ไปหน้า symptom-add
   if (miniSym) {
-    miniSym.addEventListener('click', (e) => {
-      e.stopPropagation();
-      window.location.href = URL_SYMPTOM_ADD;  // 👈 ไปหน้าเพิ่มอาการ
+    miniSym.addEventListener('click', (event) => {
+      event.stopPropagation();
+      window.location.href = URL_SYMPTOM_ADD;
     });
-    miniSym.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.location.href = URL_SYMPTOM_ADD; }
+    miniSym.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        window.location.href = URL_SYMPTOM_ADD;
+      }
+    });
+  }
+
+  if (miniMed) {
+    miniMed.addEventListener('click', (event) => {
+      event.stopPropagation();
+      window.location.href = URL_INTAKE_ADD;
+    });
+    miniMed.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        window.location.href = URL_INTAKE_ADD;
+      }
     });
   }
 </script>
