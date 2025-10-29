@@ -71,42 +71,42 @@ class AppointmentForm(forms.ModelForm):
         widgets = {
             "title": forms.TextInput(
                 attrs={
-                    "placeholder": "�,��,�,�,,�1%�,-�,?�,��,��,T�,�,"�,��,��,��,� �1?�,S�1^�,T �,�,��,�,^�,��,,�,,�,��,��,z�,>�,��,��,^�,3�,>�,�, �,�,��,�,^�,Y�,�,T",
+                    "placeholder": "Purpose of medical appointment",
                     "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
                              "focus:outline-none focus:ring-2 focus:ring-gray-200"
                 }
             ),
             "doctor_name": forms.TextInput(
                 attrs={
-                    "placeholder": "�,S�,��1^�,-�1?�,z�,-�,��1O�,o�,1�1%�,�,��,�,^ �1?�,S�1^�,T �,T�,z.�,��,��,S�,��,� �1��,^�,"�,�",
+                    "placeholder": "docker's name",
                     "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
                              "focus:outline-none focus:ring-2 focus:ring-gray-200"
                 }
             ),
             "doctor_phone": forms.TextInput(
                 attrs={
-                    "placeholder": "�1?�,s�,-�,��1O�1,�,-�,��,"�,�,z�,-�1O�1?�,z�,-�,��1O (�,-�1%�,��,��,�)",
+                    "placeholder": "doctor's number",
                     "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
                              "focus:outline-none focus:ring-2 focus:ring-gray-200"
                 }
             ),
             "doctor_email": forms.EmailInput(
                 attrs={
-                    "placeholder": "�,-�,�1?�,��,��1?�,z�,-�,��1O (�,-�1%�,��,��,�)",
+                    "placeholder": "docter's email",
                     "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
                              "focus:outline-none focus:ring-2 focus:ring-gray-200"
                 }
             ),
             "condition": forms.TextInput(
                 attrs={
-                    "placeholder": "�,-�,��,?�,��,��,��,��,��,-�1?�,��,�,,�,o�,��,-�,�1^�1,�,>�,z�,s�1?�,z�,-�,��1O �1?�,S�1^�,T �,>�,�,"�,��,�,, �,�,��,�,^�,�,�",
+                    "placeholder": "Presenting symptoms",
                     "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
                              "focus:outline-none focus:ring-2 focus:ring-gray-200"
                 }
             ),
             "address": forms.TextInput(
                 attrs={
-                    "placeholder": "�,��,-�,��,T�,-�,�1^�,T�,�,"�,��,��,��,� �1?�,S�1^�,T �1,�,��,؅,z�,��,��,s�,��,��,��,��,"�,?�,��,��,s�,�,�, �,,�,��,'�,T�,'�,?�,��,��1��,^",
+                    "placeholder": "Hospital address",
                     "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
                              "focus:outline-none focus:ring-2 focus:ring-gray-200"
                 }
@@ -128,7 +128,7 @@ class AppointmentForm(forms.ModelForm):
             "details": forms.Textarea(
                 attrs={
                     "rows": 4,
-                    "placeholder": "�,��,��,��,��,��1?�,-�,�,��,"�1?�,z�,'�1^�,��1?�,�,'�,� �1?�,S�1^�,T �1?�,�,��,�,��,��,o�,��,�,��,�,^, �,-�,��,-�1?�,-�,?�,��,��,��1,�,>�,"�1%�,�,�",
+                    "placeholder": "more detail",
                     "class": "w-full border border-gray-300 rounded-lg px-3 py-2 bg-white "
                              "focus:outline-none focus:ring-2 focus:ring-gray-200 resize-none"
                 }
