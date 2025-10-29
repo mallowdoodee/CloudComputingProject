@@ -59,7 +59,7 @@
 <nav class="fixed bottom-0 inset-x-0 bg-white border-t border-gray-200 shadow-lg z-50 flex justify-around py-3">
   <div class="w-15 h-10">
     <!-- Schedule -->
-    <a href="{% url 'appointment-calendar' %}"
+    <a href="{% url 'appointment-list' %}"
        class="flex flex-col items-center gap-1 transition-colors {% if current_url_name == 'appointment-calendar' or current_url_name == 'appointment-list' %}text-red-600{% else %}text-gray-600 hover:text-red-600{% endif %}">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
            class="w-6 h-6" fill="currentColor">
