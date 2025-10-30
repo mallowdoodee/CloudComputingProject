@@ -41,12 +41,11 @@ class SymptomListView(LoginRequiredMixin, View):
 class SymptomDashboardView(LoginRequiredMixin, View):
     """หน้าเดียว แสดงรายการอาการ + ปุ่มไปหน้าเพิ่ม เฉพาะวันนี้"""
     def get(self, request):
-        today = timezone.localdate()  # ชัวร์เรื่องโซนเวลา
+        # today = timezone.localdate()  # ชัวร์เรื่องโซนเวลา
         symptoms = (Symptom.objects
-                    .filter(user=request.user, created_at__date=today)
+                    .filter(user=request.user)
                     .order_by(F('date').desc(nulls_last=True), '-pk'))
         return render(request, "sym_dashboard.html", {"symptoms": symptoms, "today": timezone.localdate()})
-
 
 # ============ CREATE ============ #
 class SymptomCreateView(LoginRequiredMixin, View):
