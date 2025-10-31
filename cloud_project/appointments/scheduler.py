@@ -13,4 +13,4 @@ def start():
             timezone="Asia/Bangkok"
         )
         scheduler.start()
-        print("✅ APScheduler started (will run at 09:39)")
+        print("✅ APScheduler started (will run at 08.00)")
