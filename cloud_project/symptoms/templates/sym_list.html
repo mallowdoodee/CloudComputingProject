@@ -4,7 +4,56 @@
 
 {% block content %}
 <main class="max-w-4xl mx-auto p-6 space-y-8">
+  <!-- ===== แผนการทานยา ===== -->
+  <section>
+    <header class="flex items-center justify-between mb-3">
+      <h2 class="text-xl font-semibold text-gray-900 no-select">แผนการทานยา</h2>
+      <a href="{% url 'med-dashboard' %}"
+         class="text-sm font-medium text-blue-600 hover:text-blue-800">
+        View All
+      </a>
+    </header>
 
+    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+      {% if medications_all %}
+        {% regroup medications_all by start_date as med_groups %}
+        <div class="divide-y divide-gray-100">
+          {% for group in med_groups %}
+            <div class="p-4 {% if not forloop.first %}border-t border-gray-100{% endif %}">
+              <ul class="space-y-2">
+                {% for m in group.list %}
+                  <li class="p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
+                    <div class="min-w-0">
+                      <p class="text-sm text-gray-500">
+                        {% if m.time %}{{ m.time|time:"H:i" }}{% endif %}
+                        {% if m.get_frequency_display %} • {{ m.get_frequency_display }}{% endif %}
+                        {% if m.get_instruction_display %} • {{ m.get_instruction_display }}{% endif %}
+                      </p>
+                      <p class="font-medium text-gray-900">
+                        {{ m.drug.name }}
+                        {% if m.dose %}<span class="text-sm text-gray-500">({{ m.dose }})</span>{% endif %}
+                      </p>
+                      <p class="text-xs text-gray-500">
+                        เริ่ม {{ m.start_date|date:"d/m/Y" }}
+                        {% if m.end_date %} ถึง {{ m.end_date|date:"d/m/Y" }}{% endif %}
+                      </p>
+                      {% if m.note %}
+                        <p class="text-sm text-gray-600 mt-1">{{ m.note }}</p>
+                      {% endif %}
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="p-8 text-center text-gray-500">
+          ยังไม่มีแผนการทานยา
+        </div>
+      {% endif %}
+    </div>
+  </section>
   <!-- ===== อาการทั้งหมด ===== -->
   <section>
     <!-- หัวข้อ -->
@@ -86,57 +135,5 @@
       </nav>
     {% endif %}
   </section>
-
-  <!-- ===== แผนการทานยา ===== -->
-  <section>
-    <header class="flex items-center justify-between mb-3">
-      <h2 class="text-xl font-semibold text-gray-900 no-select">แผนการทานยา</h2>
-      <a href="{% url 'med-dashboard' %}"
-         class="text-sm font-medium text-blue-600 hover:text-blue-800">
-        View All
-      </a>
-    </header>
-
-    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-      {% if medications_all %}
-        {% regroup medications_all by start_date as med_groups %}
-        <div class="divide-y divide-gray-100">
-          {% for group in med_groups %}
-            <div class="p-4 {% if not forloop.first %}border-t border-gray-100{% endif %}">
-              <ul class="space-y-2">
-                {% for m in group.list %}
-                  <li class="p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
-                    <div class="min-w-0">
-                      <p class="text-sm text-gray-500">
-                        {% if m.time %}{{ m.time|time:"H:i" }}{% endif %}
-                        {% if m.get_frequency_display %} • {{ m.get_frequency_display }}{% endif %}
-                        {% if m.get_instruction_display %} • {{ m.get_instruction_display }}{% endif %}
-                      </p>
-                      <p class="font-medium text-gray-900">
-                        {{ m.drug.name }}
-                        {% if m.dose %}<span class="text-sm text-gray-500">({{ m.dose }})</span>{% endif %}
-                      </p>
-                      <p class="text-xs text-gray-500">
-                        เริ่ม {{ m.start_date|date:"d/m/Y" }}
-                        {% if m.end_date %} ถึง {{ m.end_date|date:"d/m/Y" }}{% endif %}
-                      </p>
-                      {% if m.note %}
-                        <p class="text-sm text-gray-600 mt-1">{{ m.note }}</p>
-                      {% endif %}
-                    </div>
-                  </li>
-                {% endfor %}
-              </ul>
-            </div>
-          {% endfor %}
-        </div>
-      {% else %}
-        <div class="p-8 text-center text-gray-500">
-          ยังไม่มีแผนการทานยา
-        </div>
-      {% endif %}
-    </div>
-  </section>
-
 </main>
 {% endblock %}
