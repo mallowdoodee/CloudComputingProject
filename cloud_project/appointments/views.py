@@ -207,3 +207,4 @@ class AppointmentCalendarView(LoginRequiredMixin, View):
             "today": today,
         }
         return render(request, "calendar.html", ctx)
+

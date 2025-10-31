@@ -39,9 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authen',
     'medications',
-    'appointments',
     'symptoms',
+    'django_crontab',
+    'appointments.apps.AppointmentsConfig',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -131,3 +133,28 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv()
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_HOST = os.getenv("EMAIL_HOST")
+# EMAIL_PORT = int(os.getenv("EMAIL_PORT", 587))
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER='ployporntip25@gmail.com'
+EMAIL_HOST_PASSWORD='auba avxj scmk kjhi'
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+CRONJOBS = [
+    ('32 9 * * *', 'django.core.management.call_command', ['send_tomorrow_appointment_emails'])
+]
+
