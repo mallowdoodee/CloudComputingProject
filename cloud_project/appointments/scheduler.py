@@ -8,8 +8,8 @@ def start():
         scheduler.add_job(
             lambda: call_command("send_tomorrow_appointment_emails"),
             "cron",
-            hour=9,
-            minute=44,
+            hour=8,
+            minute=00,
             timezone="Asia/Bangkok"
         )
         scheduler.start()
